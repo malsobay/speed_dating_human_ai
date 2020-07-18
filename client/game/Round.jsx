@@ -11,7 +11,8 @@ export default class Round extends React.Component {
   renderRound() {
     const { round, stage, player, game } = this.props;
     const single =
-      stage.get("type") !== "social" && stage.get("type") !== "feedback";
+      (stage.get("type") !== "social" && stage.get("type") !== "feedback") ||
+      stage.get("interpretationType") === "None";
 
     return (
       <main className={`main-container ${single ? "single-column" : ""}`}>

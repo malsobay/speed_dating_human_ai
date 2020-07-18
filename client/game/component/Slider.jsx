@@ -2,21 +2,42 @@
  * Spare slider component
  * To make this reuse for other component
  */
-import React from "react";
 import Slider from "meteor/empirica:slider";
+import React from "react";
 
-export default ({
-  value,
-  onSlideChange,
-  newPrediction,
-  aiPrediction,
-  userPrediction,
-  userFinalPrediction,
-  disabled,
-}) => {
+export default (props) => {
   handleChange = (num) => {
     onSlideChange(num);
   };
+
+  const { player, round, stage, onSlideChange, disabled } = props;
+
+  let value = player.round.get("prediction");
+
+  const predictionProb =
+    round.get("model_prediction_prob") ||
+    round.get("task").model_prediction_prob;
+
+  const effectiveIndex = round.get("effectiveIndex");
+  const predictionPrefix = round.get("practice")
+    ? "prediction-practice"
+    : "prediction";
+
+  const isSolo = stage.get("type") === "solo";
+  const isSocial = stage.get("type") === "social";
+  const initialPrediction = player.get(`${predictionPrefix}-${effectiveIndex}`);
+  const isOutcome =
+    stage.name === "outcome" || stage.name === "practice-outcome";
+  const newPrediction = !disabled && stage.get("type") === "social";
+
+  stage.name === "outcome" || stage.name === "practice-outcome";
+  const aiPrediction = (!isSolo && predictionProb) || null;
+  const userPrediction =
+    isSocial && initialPrediction !== null && initialPrediction !== undefined
+      ? initialPrediction
+      : null;
+  const userFinalPrediction =
+    isOutcome && value !== null && value !== undefined ? value : null;
 
   const aiPercentage = aiPrediction * 100;
   const userPercentage = userPrediction * 100;
@@ -57,6 +78,7 @@ export default ({
           labelRenderer={(number) => {
             return number.toFixed(2).toString();
           }}
+          hideHandleOnEmpty
         />
         {aiPrediction !== null && aiPrediction !== undefined && (
           <div
@@ -122,7 +144,7 @@ export default ({
             </div>
           </div>
         )}
-        {newPrediction && (
+        {newPrediction && value !== null && value !== undefined && (
           <div
             className="prediction new-prediction"
             style={{ left: `calc(${newPredictPercentage}% - 6.5px)` }}

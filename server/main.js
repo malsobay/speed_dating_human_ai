@@ -153,6 +153,8 @@ Empirica.gameInit((game) => {
   const feedback = game.treatment.giveFeedback || false;
   const stageDuration = game.treatment.stageLength || 120;
   const socialStageDuration = game.treatment.socialStageLength || 120;
+  // const stageDuration = 400;
+  // const socialStageDuration = 400;
 
   // - 2 to add the two practice rounds and * 2  because for each task instance, we will do it once a lone, and then again with AI + feedback and the + 2 because we need that for the practice rounds too
   for (let i = -2; i < roundCount * 2 + 2 * 2; i++) {

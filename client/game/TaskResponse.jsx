@@ -1,7 +1,7 @@
+import { Position, Toaster } from "@blueprintjs/core";
+import { StageTimeWrapper } from "meteor/empirica:core";
 import React from "react";
 import Slider from "./component/Slider";
-import { Toaster, Position } from "@blueprintjs/core";
-import { StageTimeWrapper } from "meteor/empirica:core";
 
 const WarningToaster = Toaster.create({
   className: "warning-toaster",
@@ -58,44 +58,11 @@ export default class TaskResponse extends React.Component {
   };
 
   renderSlider(disabled) {
-    const { player, round, stage } = this.props;
-    let prediction = player.round.get("prediction");
-    if (prediction === null || prediction === undefined) {
-      prediction = 0.5;
-    }
-    const predictionProb =
-      round.get("model_prediction_prob") ||
-      round.get("task").model_prediction_prob;
-
-    const effectiveIndex = round.get("effectiveIndex");
-
-    const isSolo = stage.get("type") === "solo";
-    const isSocial = stage.get("type") === "social";
-    const initialPrediction = player.get(`prediction-${effectiveIndex}`);
-    const isOutcome =
-      stage.name === "outcome" || stage.name === "practice-outcome";
-    const indicateNewPrediction = stage.get("type") === "social";
-
-    stage.name === "outcome" || stage.name === "practice-outcome";
-    const aiPrediction = (!isSolo && predictionProb) || null;
-    const userPrediction =
-      isSocial && initialPrediction !== null && initialPrediction !== undefined
-        ? initialPrediction
-        : null;
-    const userFinalPrediction =
-      isOutcome && prediction !== null && prediction !== undefined
-        ? prediction
-        : null;
-
     return (
       <Slider
-        value={prediction}
         onSlideChange={this.handleChange}
-        newPrediction={indicateNewPrediction}
-        aiPrediction={aiPrediction}
-        userPrediction={userPrediction}
-        userFinalPrediction={userFinalPrediction}
-        disabled={isOutcome || disabled}
+        disabled={disabled}
+        {...this.props}
       />
     );
   }
@@ -187,7 +154,7 @@ export default class TaskResponse extends React.Component {
             met once would like to go on a second date.
           </h3>
         )}
-        {this.renderSlider()}
+        {this.renderSlider(isOutcome)}
         {this.renderResult()}
         <TimedButton
           stage={stage}

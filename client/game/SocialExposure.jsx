@@ -1,10 +1,9 @@
-import React from "react";
 import Slider from "meteor/empirica:slider";
-
+import React from "react";
 import SlidersPrediction from "./component/Slider";
 import BodyDescription from "./ContentRight/BodyDescription";
-import LocalBars from "./ContentRight/LocalBars";
 import GlobalBars from "./ContentRight/GlobalBars";
+import LocalBars from "./ContentRight/LocalBars";
 
 export default class SocialExposure extends React.Component {
   renderSocialInteraction(otherPlayer) {
@@ -27,60 +26,14 @@ export default class SocialExposure extends React.Component {
     );
   }
 
-  renderSlider() {
-    const { player, round, stage } = this.props;
-    let prediction = player.round.get("prediction");
-    if (prediction === null || prediction === undefined) {
-      prediction = 0.5;
-    }
-    const predictionProb =
-      round.get("model_prediction_prob") ||
-      round.get("task").model_prediction_prob;
-
-    const effectiveIndex = round.get("effectiveIndex");
-
-    const isSolo = stage.get("type") === "solo";
-    const isSocial = stage.get("type") === "social";
-    const initialPrediction = player.get(`prediction-${effectiveIndex}`);
-    const isOutcome =
-      stage.name === "outcome" || stage.name === "practice-outcome";
-    stage.name === "outcome" || stage.name === "practice-outcome";
-    const aiPrediction = (!isSolo && predictionProb) || null;
-    // const userPrediction = (isSocial && initialPrediction) || null;
-    // const userFinalPrediction = (isOutcome && prediction) || null;
-
-    const userPrediction =
-      isSocial && initialPrediction !== null && initialPrediction !== undefined
-        ? initialPrediction
-        : null;
-    const userFinalPrediction =
-      isOutcome && prediction !== null && prediction !== undefined
-        ? prediction
-        : null;
-
-    return (
-      <SlidersPrediction
-        value={prediction}
-        newPrediction={false}
-        aiPrediction={aiPrediction}
-        userPrediction={userPrediction}
-        userFinalPrediction={userFinalPrediction}
-        disabled={true}
-      />
-    );
-  }
-
   render() {
     const { stage } = this.props;
-
     return (
       <>
-        {/*{this.renderSlider()}*/}
-        {
-          <BodyDescription
-            isGlobal={stage.get("interpretationType") === "Global"}
-          />
-        }
+        <SlidersPrediction disabled={true} {...this.props} />
+        <BodyDescription
+          isGlobal={stage.get("interpretationType") === "Global"}
+        />
         {stage.get("interpretationType") === "Global" ? (
           <GlobalBars {...this.props} />
         ) : (

@@ -1,8 +1,7 @@
-import React from "react";
-
 import { Centered } from "meteor/empirica:core";
-
+import React from "react";
 import Radio from "./Radio";
+
 export default class QuizTwoGlobalInterpretability extends React.Component {
   state = {
     answer: {
@@ -34,7 +33,7 @@ export default class QuizTwoGlobalInterpretability extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { nextStep } = this.props;
+    const { nextStep, giveFeedback } = this.props;
     const { answer, answer_2, answer_3 } = this.state;
     let count = 0;
 
@@ -57,7 +56,7 @@ export default class QuizTwoGlobalInterpretability extends React.Component {
       count++;
     }
 
-    if (answer_3.value != "a") {
+    if (answer_3.value != "a" && giveFeedback) {
       this.setState({
         answer_3: {
           ...answer_3,
@@ -76,6 +75,8 @@ export default class QuizTwoGlobalInterpretability extends React.Component {
 
   render() {
     const { answer, answer_2, answer_3, answered } = this.state;
+    const { giveFeedback } = this.props;
+    const passedPoint = giveFeedback ? 3 : 2;
     return (
       <Centered>
         <div className="quiz">
@@ -173,46 +174,48 @@ export default class QuizTwoGlobalInterpretability extends React.Component {
                     />
                   </div>
                 </li>
-                <li
-                  className={`question-list${
-                    answer_3.error ? " wrong-answer" : ""
-                  }`}
-                >
-                  <p
-                    className={`question-text${
-                      answer_3.wrong ? " text-error" : ""
+                {giveFeedback && (
+                  <li
+                    className={`question-list${
+                      answer_3.error ? " wrong-answer" : ""
                     }`}
                   >
-                    Which of the following two statements is true:
-                  </p>
-                  <div>
-                    <Radio
-                      selected={answer_3.value}
-                      name="answer_3"
-                      value="a"
-                      option="a"
-                      label="After you revise your prediction, you will receive information about whether that couple actually had a second date."
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <Radio
-                      selected={answer_3.value}
-                      name="answer_3"
-                      value="b"
-                      option="b"
-                      label="Even after you revise your prediction, you will not receive information about whether the couple actually went on a second date."
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </li>
+                    <p
+                      className={`question-text${
+                        answer_3.wrong ? " text-error" : ""
+                      }`}
+                    >
+                      Which of the following two statements is true:
+                    </p>
+                    <div>
+                      <Radio
+                        selected={answer_3.value}
+                        name="answer_3"
+                        value="a"
+                        option="a"
+                        label="After you revise your prediction, you will receive information about whether that couple actually had a second date."
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                    <div>
+                      <Radio
+                        selected={answer_3.value}
+                        name="answer_3"
+                        value="b"
+                        option="b"
+                        label="Even after you revise your prediction, you will not receive information about whether the couple actually went on a second date."
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </li>
+                )}
               </ol>
             </div>
             <p>
               <button
                 type="submit"
                 className="btn-prediction-big"
-                disabled={answered < 3}
+                disabled={answered < passedPoint}
               >
                 Submit
               </button>

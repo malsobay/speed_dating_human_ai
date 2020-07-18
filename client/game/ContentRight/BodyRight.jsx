@@ -1,7 +1,7 @@
 import React from "react";
 
 import SocialExposure from "../SocialExposure.jsx";
-import TaskFeedback from "../TaskFeedback.jsx";
+// import TaskFeedback from "../TaskFeedback.jsx";
 
 export default class BodyRight extends React.Component {
   render() {

@@ -10,6 +10,7 @@ class timer extends React.Component {
     const timer = remainingSeconds;
     let minutes = parseInt(timer / 60, 10);
     let seconds = parseInt(timer % 60, 10);
+    if (remainingSeconds < 0) return "00:00";
     return (
       minutes.toString().padStart(2, "0") +
       ":" +

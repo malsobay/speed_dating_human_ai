@@ -22,7 +22,15 @@ Empirica.onRoundStart((game, round) => {
       } else {
         player.round.set("prediction", null);
         // player.round.set("prediction", 0.5);
-        player.set(`prediction-${round.get("effectiveIndex")}`, null);
+
+        if (round.get("practice")) {
+          player.set(
+            `prediction-practice-${round.get("effectiveIndex")}`,
+            null
+          );
+        } else {
+          player.set(`prediction-${round.get("effectiveIndex")}`, null);
+        }
         player.round.set("score", 0);
       }
     });
@@ -33,18 +41,33 @@ Empirica.onRoundStart((game, round) => {
       if (player.bot) {
         player.round.set("prediction", round.get("task").model_prediction_prob);
       } else {
-        console.log(
-          "previous prediction",
-          player.get(`prediction-${round.get("effectiveIndex")}`)
-        );
-        player.round.set(
-          "prediction",
-          player.get(`prediction-${round.get("effectiveIndex")}`)
-        );
-        player.round.set(
-          "previousPrediction",
-          player.get(`prediction-${round.get("effectiveIndex")}`)
-        );
+        if (round.get("practice")) {
+          console.log(
+            "previous prediction",
+            player.get(`prediction-practice-${round.get("effectiveIndex")}`)
+          );
+          player.round.set(
+            "prediction",
+            player.get(`prediction-practice-${round.get("effectiveIndex")}`)
+          );
+          player.round.set(
+            "previousPrediction",
+            player.get(`prediction-practice-${round.get("effectiveIndex")}`)
+          );
+        } else {
+          console.log(
+            "previous prediction",
+            player.get(`prediction-${round.get("effectiveIndex")}`)
+          );
+          player.round.set(
+            "prediction",
+            player.get(`prediction-${round.get("effectiveIndex")}`)
+          );
+          player.round.set(
+            "previousPrediction",
+            player.get(`prediction-${round.get("effectiveIndex")}`)
+          );
+        }
       }
     });
   }
@@ -91,10 +114,25 @@ Empirica.onRoundEnd((game, round) => {
     game.players.forEach((player) => {
       const prediction = player.round.get("prediction");
       if (prediction !== null && prediction !== undefined) {
-        player.set(`prediction-${round.get("effectiveIndex")}`, prediction);
+        // player.set(`prediction-${round.get("effectiveIndex")}`, prediction);
+        if (round.get("practice")) {
+          player.set(
+            `prediction-practice-${round.get("effectiveIndex")}`,
+            prediction
+          );
+        } else {
+          player.set(`prediction-${round.get("effectiveIndex")}`, prediction);
+        }
       } else {
         game.players.forEach((player) => {
-          player.set(`prediction-${round.get("effectiveIndex")}`, null);
+          if (round.get("practice")) {
+            player.set(
+              `prediction-practice-${round.get("effectiveIndex")}`,
+              null
+            );
+          } else {
+            player.set(`prediction-${round.get("effectiveIndex")}`, null);
+          }
         });
       }
     });

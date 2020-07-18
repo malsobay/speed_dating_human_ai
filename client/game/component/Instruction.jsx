@@ -1,13 +1,11 @@
 import React from "react";
-
-import StepTwoGlobalInterpretability from "../../intro/StepTwoGlobalInterpretability.jsx";
-import StepTwoLocalInterpretability from "../../intro/StepTwoLocalInterpretability.jsx";
-import StepTwoNoInterpretability from "../../intro/StepTwoNoInterpretability.jsx";
-
+import PreRound from "../../intro/PreRound";
 import QuizTwoGlobalInterpretability from "../../intro/QuizTwoGlobalInterpretability";
 import QuizTwoLocalInterpretability from "../../intro/QuizTwoLocalInterpretability";
 import QuizTwoNoInterpretability from "../../intro/QuizTwoNoInterpretability";
-import PreRound from "../../intro/PreRound";
+import StepTwoGlobalInterpretability from "../../intro/StepTwoGlobalInterpretability.jsx";
+import StepTwoLocalInterpretability from "../../intro/StepTwoLocalInterpretability.jsx";
+import StepTwoNoInterpretability from "../../intro/StepTwoNoInterpretability.jsx";
 
 export default class Instruction extends React.Component {
   state = {
@@ -26,7 +24,7 @@ export default class Instruction extends React.Component {
       this.setState({
         toast: {
           show: false,
-          message: "Your answer was incorrect. Please try again.",
+          message: "",
         },
         preRound: true,
       });
@@ -61,13 +59,22 @@ export default class Instruction extends React.Component {
             <div className="intro-alert alert-error">{toast.message}</div>
           )}
           {interpretationType.toLowerCase() === "global" && (
-            <QuizTwoGlobalInterpretability nextStep={this.goToNextStep} />
+            <QuizTwoGlobalInterpretability
+              nextStep={this.goToNextStep}
+              giveFeedback={giveFeedback}
+            />
           )}
           {interpretationType.toLowerCase() === "local" && (
-            <QuizTwoLocalInterpretability nextStep={this.goToNextStep} />
+            <QuizTwoLocalInterpretability
+              nextStep={this.goToNextStep}
+              giveFeedback={giveFeedback}
+            />
           )}
           {interpretationType.toLowerCase() === "none" && (
-            <QuizTwoNoInterpretability nextStep={this.goToNextStep} />
+            <QuizTwoNoInterpretability
+              nextStep={this.goToNextStep}
+              giveFeedback={giveFeedback}
+            />
           )}
         </>
       );

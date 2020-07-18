@@ -1,15 +1,14 @@
-import React from "react";
-
-import { Centered } from "meteor/empirica:core";
 import {
   Button,
   Classes,
   FormGroup,
-  RadioGroup,
-  TextArea,
   Intent,
   Radio,
+  RadioGroup,
+  TextArea,
 } from "@blueprintjs/core";
+import { Centered } from "meteor/empirica:core";
+import React from "react";
 
 export default class ExitSurvey extends React.Component {
   static stepName = "ExitSurvey";
@@ -49,10 +48,6 @@ export default class ExitSurvey extends React.Component {
       return;
     }
 
-    if (this.state.education === "") {
-      alert("Please fill out all required field*.");
-      return;
-    }
     this.props.onSubmit(this.state);
   };
 
@@ -105,9 +100,9 @@ export default class ExitSurvey extends React.Component {
           <div className="form-line">
             <FormGroup
               inline={true}
-              label={"Age*"}
+              label={"Age"}
               labelFor={"age"}
-              className={"form-group"}
+              className={"form-group exit-radio-area"}
             >
               <input
                 id="age"
@@ -120,15 +115,14 @@ export default class ExitSurvey extends React.Component {
                 name="age"
                 value={age}
                 onChange={this.handleChange}
-                required
               />
             </FormGroup>
 
             <FormGroup
               inline={true}
-              label={"Gender*"}
+              label={"Gender"}
               labelFor={"gender"}
-              className={"form-group"}
+              className={"form-group exit-radio-area"}
             >
               <input
                 id="gender"
@@ -138,7 +132,6 @@ export default class ExitSurvey extends React.Component {
                 name="gender"
                 value={gender}
                 onChange={this.handleChange}
-                required
               />
             </FormGroup>
           </div>
@@ -147,10 +140,9 @@ export default class ExitSurvey extends React.Component {
             <RadioGroup
               inline={true}
               name="education"
-              label="Highest Education Qualification?*"
+              label="Highest Education Qualification?"
               onChange={this.handleChange}
               selectedValue={education}
-              required
             >
               <Radio
                 selected={education}

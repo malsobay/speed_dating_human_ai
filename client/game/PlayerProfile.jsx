@@ -16,7 +16,7 @@ export default class PlayerProfile extends React.Component {
               game.treatment.roundCount.toString()}
         </div>
 
-        <Timer stage={stage} />
+        <Timer stage={stage} player={player} />
         <div className="value-label">
           <span>SCORE</span> {(player.get("cumulativeScore") || 0).toFixed(2)}
         </div>
