@@ -5,9 +5,9 @@ import modelGlobalJson from "../../model_global.json";
 export default class GlobalBars extends React.Component {
   renderBar = (maxValue, { title, value, gender }) => {
     let formattedValue = value * 100;
-    formattedValue = formattedValue > 1 ? Math.floor(formattedValue) : formattedValue.toFixed(2);
+    formattedValue = formattedValue > 1 ?  Math.round(formattedValue.toFixed(2)) : formattedValue.toFixed(2);
     return (
-      <div key={title} className="relative-bar-container">
+    <div key={title} className="relative-bar-container">
         <div className={`bar ${gender}`} style={{ width: `${(value / maxValue) * 200}px` }}></div>
         <div className="label">
           {title} {formattedValue}%

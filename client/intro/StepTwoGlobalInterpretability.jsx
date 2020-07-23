@@ -36,13 +36,14 @@ export default class StepTwoGlobalInterpretability extends React.Component {
             information about how the AI system makes its predictions. The AI
             system was trained on 1,000 dates, and based on this data it
             determined that certain attributes were more important than others
-            in whether a couple wants a second date. You will be given the chart
-            shown below, which shows how important the AI system considers each
-            attribute to be. For example, as indicated in the chart, the AI
-            system considers the most important factors to be: Woman’s
-            Attractiveness, followed by Men’s Attractiveness, followed by
-            Men’s Fun. This relative importance of factors is not specific to
-            any one couple.
+            in whether a couple wants a second date. You will be given a chart
+            like the one shown below (the one below is just an example). The
+            chart below indicates that, in this example, the AI system considers
+            the most important factors to be: Woman’s Attractiveness, followed
+            by Man’s Attractiveness, followed by Man’s Fun. The actual chart
+            will have a different order of factors. That actual chart and the
+            relative importance of factors it shows will be the same for all the
+            couples in this experiment (it is not specific to any one couple).
           </p>
 
           <div className="intro-flex mb-25 jc-center">

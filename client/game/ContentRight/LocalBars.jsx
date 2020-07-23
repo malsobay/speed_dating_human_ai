@@ -79,7 +79,7 @@ export default class LocalBars extends React.Component {
 
     return data.map(({ value, condition }) => {
       const isPositive = value > 0;
-      const width = 8 * Math.abs(value);
+      const width = 7.5 * Math.abs(value);
       return <Bar key={condition} isPositive={isPositive} width={width} />;
     });
   };
