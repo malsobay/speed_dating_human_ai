@@ -46,12 +46,12 @@ export default class InstructionStepOne extends React.Component {
             </div>
             <div className="intro-column-35">
               <p>
-                → <u>Demographic Information</u>: The age and race of the man
+                1 - <u>Demographic Information</u>: The age and race of the man
                 and woman in each couple.
               </p>
 
               <p>
-                → <u>The couple’s ratings of each other</u>: When the couples
+                2 - <u>The couple’s ratings of each other</u>: When the couples
                 initially met, they rated each other on six attributes
                 (attractiveness, sincerity, intelligence, fun, ambition, &
                 shared interests). Each rating will range from 0 to 10. For
@@ -60,7 +60,7 @@ export default class InstructionStepOne extends React.Component {
               </p>
 
               <p>
-                → <u>The “interest correlation”</u>: Each man and each woman
+                3 - <u>The “interest correlation”</u>: Each man and each woman
                 also filled out a questionnaire about themselves. For each
                 couple, the similarity between the man and the woman’s interests
                 (sports, food, hobbies, etc.) was calculated and is presented as

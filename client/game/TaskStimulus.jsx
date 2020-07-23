@@ -31,7 +31,12 @@ const PersonCard = ({ pairData, isPartner }) => {
         </div>
       </header>
       <div className={`ratings${classRating}`}>
-        <h3>Ratings</h3>
+        <h3 align="center">Ratings</h3>
+        {isPartner ? (
+          <h3> (of the male by the female)</h3>
+        ) : (
+          <h3> (of the female by the male)</h3>
+        )}
         <table>
           <tbody>
             <tr>
@@ -66,7 +71,7 @@ const PersonCard = ({ pairData, isPartner }) => {
 };
 
 const Interest = ({ data }) => {
-  const interestPosition = InterestsCorr => {
+  const interestPosition = (InterestsCorr) => {
     return (1 / 2 - InterestsCorr / 2) * 100;
   };
   return (
