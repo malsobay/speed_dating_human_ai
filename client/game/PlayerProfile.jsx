@@ -12,14 +12,16 @@ export default class PlayerProfile extends React.Component {
           {round.get("practice")
             ? "Practice " + round.get("effectiveIndex")
             : round.get("effectiveIndex") +
-              " / " +
-              game.treatment.roundCount.toString()}
+              " / 10 " 
+              }
         </div>
 
         <Timer stage={stage} player={player} />
+        
+        {game.treatment.giveFeedback ? 
         <div className="value-label">
           <span>SCORE</span> {(player.get("cumulativeScore") || 0).toFixed(2)}
-        </div>
+        </div> : <div className="value-label"></div> } 
       </>
     );
   }

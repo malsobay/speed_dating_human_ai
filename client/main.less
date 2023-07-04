@@ -20,6 +20,39 @@ main {
   }
 }
 
+.discussion-container{
+  display: flex;
+  width: 85%;
+  height: 90%;
+  margin:auto;
+  column-gap: 12px;
+}
+
+.social-exposure {
+  margin: 0rem;
+
+  .alter {
+    display: flex;
+    padding-right: 3rem;
+
+    img {
+      width: 10px;
+      height: 10px;
+      margin-right: 3rem;
+    }
+
+    .range {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.chat-container{
+  width: 100%;
+  height: 65vh;
+}
+
 .header-left {
   grid-area: header-left;
   display: flex;
@@ -383,4 +416,55 @@ main {
     grid-template-columns: 70px 1fr;
     margin-bottom: 21px;
   }
+}
+
+
+/* -----------------
+- Styling the chat -
+----------------- */
+
+.chat-title {
+  text-align: center;
+
+  color: white;
+  background-color: #394b59;
+
+  border: 1px solid hsl(0, 0%, 75%);
+
+  margin: 1rem 0 0 0;
+}
+
+.empirica-chat-container {
+  width: 100%;
+
+  .chat {
+    form {
+      padding: 0;
+    }
+  }
+}
+
+.empirica-chat-container .chat form {
+  padding: 0;
+}
+
+.chat-button-send, .chat-input {
+  min-height: 50px;
+}
+
+.empirica-chat-container .chat form .chat-footer .chat-input {
+  border-radius: 0%;
+}
+
+.empirica-chat-container .chat form .chat-footer .chat-button-send {
+  border-radius: 0%;
+}
+
+.messages {
+  border: 1px solid hsl(0, 0%, 75%);
+  // max-height: 300px;
+}
+
+.empirica-chat-container .chat .messages .message {
+  margin: 2rem 0.5rem;
 }

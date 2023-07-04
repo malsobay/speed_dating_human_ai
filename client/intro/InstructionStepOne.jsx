@@ -9,19 +9,19 @@ export default class InstructionStepOne extends React.Component {
     return (
       <Centered className="with-topper">
         <div className="instructions">
-          <h1 className={"bp3-heading"}>Instructions (Part 1)</h1>
+          <h1 className={"bp3-heading"}>General Instructions</h1>
           <p>
             In this experiment, you will play an online prediction game. The
-            game involves predicting whether specific couples that met through
-            speed dating will want to pursue a second date. The game will take
-            you about 10 minutes and consists of two steps which are described
-            below:
+            game involves predicting whether specific heterosexual couples that met through
+            speed dating will want to pursue a second date. 
+            <strong>The game consists of 10 rounds, each representing a different couple; the total time available to you at each stage is shown in a countdown at the top of the screen.</strong> 
           </p>
+          <h2>Each round will have the following steps:</h2>
           <h3>
             <u>Step 1:</u>
           </h3>
           <p>
-            In step 1, you will be provided with information about a specific
+            In Step 1, you will be provided with information about a specific
             couple’s initial speed dating meeting and be asked to guess how
             likely this couple is to want a second date. You will do this for 10
             different couples. For each couple, you will be presented with the
@@ -76,27 +76,40 @@ export default class InstructionStepOne extends React.Component {
             <u>Step 2:</u>
           </h3>
           <p>
-            In step 2, you will be presented with the predictions of an
-            Artificial Intelligence (AI) system for each of the same 10 couples
-            that you made predictions for in step 1. In this step, you can
-            modify the predictions you made in step 1. You will submit your new
+            In Step 2, you will be presented with the predictions of an
+            Artificial Intelligence (AI) system for the same couple presented in Step 1. 
+            In this step, you can modify the predictions you made in Step 1. You will submit your new
             predictions using a slider scale just like what you used previously.
             If you do not want to modify your previous forecast, you can submit
-            the same results you submitted in step 1 (which will be shown to
-            you). More details about step 2 will be provided when you get to
-            that part of the experiment.
+            the same results you submitted in Step 1 (which will be shown to
+            you). More details about Step 2 will be shown next.
           </p>
+
+          {game.treatment.playerCount > 1 && 
+          <div>
+            <h3>
+              <u>Discussion:</u>
+            </h3>
+          <p>
+            You are simultaneously playing this game with {game.treatment.playerCount - 1} other participants. 
+            Occasionally, you may have the opportunity to <strong>discuss the game with the other participants via a chat window.</strong> 
+             Feel free to discuss anything related to the game, such as your strategies, or the AI's predictions, etc...
+          </p>
+          </div>
+          }
+          
           <h3>
             <u>Scoring:</u>
           </h3>
           <p>
             At the end of the experiment, you will get points based on the
-            accuracy of your step 2 predictions (the predictions you made after
-            receiving the AI system’s predictions). Please note that the largest
-            portion of your pay is dependent on the accuracy of your step 2
+            accuracy of your Step 2 predictions (the predictions you made after
+            receiving the AI system’s predictions). <strong>Accuracy is defined by how close your prediction is to the correct answer (the correct answer is 0 if the couple did not go on a second date, 1 if they did).</strong>
+            Please note that the largest portion of your pay is dependent on the accuracy of your Step 2
             predictions (more accurate predictions mean higher scores, and
             therefore greater payment for this game).
           </p>
+          <p><strong>{game.treatment.playerCount > 1 ? "You are judged only on your own predictions, not those of any other player.":""}</strong>. </p>
 
           {/* <p>
             {game.treatment.playerCount > 1 ? " In step 1, y" : "Y"}

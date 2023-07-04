@@ -146,159 +146,302 @@ Empirica.gameInit((game) => {
   });
 
   const shuffledData = _.shuffle(data);
-
-  const roundCount = game.treatment.roundCount || 10;
   const playerCount = game.treatment.playerCount || 1;
   const interpretationType = game.treatment.interpretationType || "None";
   const feedback = game.treatment.giveFeedback || false;
-  const stageDuration = game.treatment.stageLength || 120;
-  const socialStageDuration = game.treatment.socialStageLength || 120;
   // const stageDuration = 400;
   // const socialStageDuration = 400;
+  const discussionFrequency = game.treatment.discussionFrequency || 2;
+  
+  const initialPredictionDuration = game.treatment.initialPredictionDuration || 120;
+  const revisionDuration = game.treatment.revisionDuration || 60;
+  const feedbackDuration = game.treatment.feedbackDuration || 30;
+  const discussionDuration = game.treatment.discussionDuration || 240;
+  
 
-  // - 2 to add the two practice rounds and * 2  because for each task instance, we will do it once a lone, and then again with AI + feedback and the + 2 because we need that for the practice rounds too
-  for (let i = -2; i < roundCount * 2 + 2 * 2; i++) {
-    // the last + 1 is the number of instruction pages
+  for (i=0; i < 10; i++) {
+    var round = game.addRound({
+      data: {
+        task: shuffledData[i],
+        practice: false,
+        case: "initial",
+        effectiveIndex: i+1,
+      },
+    });
+    
+    round.addStage({
+      name: "initial",
+      displayName: "Initial Prediction",
+      durationInSeconds: initialPredictionDuration,
+      data: {
+        type: "solo",
+        practice: false,
+        questionText: questionText,
+      },
+    });
 
-    // the initial two practice rounds with only initial guesses
-    if (i < 0) {
-      const round = game.addRound({
+    var round = game.addRound({
+      data: {
+        task: shuffledData[i],
+        practice: false,
+        case: "revise", //whether revising the task
+        effectiveIndex: i+1, // the two practice + instruction page
+      },
+    });
+
+    round.addStage({
+      name: "social",
+      displayName: "Interactive Prediction",
+      durationInSeconds: revisionDuration,
+      data: {
+        type: "social",
+        practice: false,
+        questionText: questionText,
+        interpretationType: interpretationType,
+      },
+    });
+
+    if (feedback) {
+      round.addStage({
+        name: "outcome",
+        displayName: "Case Outcome",
+        durationInSeconds: feedbackDuration,
         data: {
-          task: practiceData[i + 2],
-          practice: true,
-          case: "initial",
-          effectiveIndex: i + 3,
+          type: "feedback",
+          practice: false,
+          interpretationType: interpretationType,
+        },
+      });
+    }
+
+    if ((i+1) % discussionFrequency == 0 & playerCount > 1 & (i+1) < 10) {
+      var round = game.addRound({
+        data: {
+          practice: false,
+          effectiveIndex: i+1, // the two practice + instruction page
         },
       });
       round.addStage({
-        name: "practice-initial",
-        displayName: "Practice - Initial Prediction",
-        durationInSeconds: stageDuration,
-        data: {
-          type: "solo",
-          practice: true,
-          questionText: questionText,
-        },
+        name: "discussion",
+        displayName: "Discussion",
+        durationInSeconds: discussionDuration
       });
-      continue;
-    }
-    //the start of the real game only initial guesses
-    if (i >= 0 && i < roundCount) {
-      const round = game.addRound({
-        data: {
-          task: shuffledData[i],
-          practice: false,
-          case: "initial",
-          effectiveIndex: i + 1,
-        },
-      });
-      round.addStage({
-        name: "initial",
-        displayName: "Initial Prediction",
-        durationInSeconds: stageDuration,
-        data: {
-          type: "solo",
-          practice: false,
-          questionText: questionText,
-        },
-      });
-      continue;
-    }
-
-    if (playerCount > 1) {
-      // only if there is an AI
-      //now instructions
-      if (i === roundCount) {
-        const round = game.addRound({
-          data: {
-            practice: false,
-            case: "instruction",
-            effectiveIndex: null,
-          },
-        });
-        round.addStage({
-          name: "instruction",
-          displayName: "Instructions: Now you will revise",
-          durationInSeconds: stageDuration + 100000,
-          data: {
-            instruction: true,
-          },
-        });
-        continue;
-      }
-
-      ////now the practice round revision
-      if (i > roundCount && i < roundCount + 3) {
-        const round = game.addRound({
-          data: {
-            task: practiceData[i - roundCount - 1],
-            practice: true,
-            case: "revise",
-            effectiveIndex: i - roundCount,
-          },
-        });
-        round.addStage({
-          name: "practice-social",
-          displayName: "Practice - Revise Prediction",
-          durationInSeconds: socialStageDuration,
-          data: {
-            type: "social",
-            practice: true,
-            questionText: questionText,
-            interpretationType: interpretationType,
-          },
-        });
-
-        if (feedback) {
-          round.addStage({
-            name: "practice-outcome",
-            displayName: "Case Outcome",
-            durationInSeconds: stageDuration,
-            data: {
-              type: "feedback",
-              practice: false,
-              interpretationType: interpretationType,
-            },
-          });
-        }
-        continue;
-      }
-
-      if (i > roundCount + 3) {
-        const round = game.addRound({
-          data: {
-            task: shuffledData[i - (roundCount + 2 + 2)],
-            practice: false,
-            case: "revise", //whether revising the task
-            effectiveIndex: i - (roundCount + 2 + 1), // the two practice + instruction page
-          },
-        });
-        round.addStage({
-          name: "social",
-          displayName: "Interactive Prediction",
-          durationInSeconds: socialStageDuration,
-          data: {
-            type: "social",
-            practice: false,
-            questionText: questionText,
-            interpretationType: interpretationType,
-          },
-        });
-        if (feedback) {
-          round.addStage({
-            name: "outcome",
-            displayName: "Case Outcome",
-            durationInSeconds: stageDuration,
-            data: {
-              type: "feedback",
-              practice: false,
-              interpretationType: interpretationType,
-            },
-          });
-        }
-      }
     }
   }
+
+
+
+
+  // var round = game.addRound({
+  //   data: {
+  //     task: shuffledData[1],
+  //     practice: false,
+  //     case: "initial",
+  //     effectiveIndex: 1,
+  //   },
+  // });
+
+  // round.addStage({
+  //   name: "initial",
+  //   displayName: "Initial Prediction",
+  //   durationInSeconds: stageDuration,
+  //   data: {
+  //     type: "solo",
+  //     practice: false,
+  //     questionText: questionText,
+  //   },
+  // });
+
+  // var round = game.addRound({
+  //   data: {
+  //     task: shuffledData[1],
+  //     practice: false,
+  //     case: "revise", //whether revising the task
+  //     effectiveIndex: 1, // the two practice + instruction page
+  //   },
+  // });
+  // round.addStage({
+  //   name: "social",
+  //   displayName: "Interactive Prediction",
+  //   durationInSeconds: socialStageDuration,
+  //   data: {
+  //     type: "social",
+  //     practice: false,
+  //     questionText: questionText,
+  //     interpretationType: interpretationType,
+  //   },
+  // });
+  // if (feedback) {
+  //   round.addStage({
+  //     name: "outcome",
+  //     displayName: "Case Outcome",
+  //     durationInSeconds: stageDuration,
+  //     data: {
+  //       type: "feedback",
+  //       practice: false,
+  //       interpretationType: interpretationType,
+  //     },
+  //   });
+  // }
+
+  // var round = game.addRound({
+  //   data: {
+  //     discussion:true
+  //   },
+  // });
+  // round.addStage({
+  //   name: "discussion",
+  //   displayName: "Discussion",
+  //   durationInSeconds: stageDuration
+  // });
+
+
+
+
+
+  // - 2 to add the two practice rounds and * 2  because for each task instance, we will do it once a lone, and then again with AI + feedback and the + 2 because we need that for the practice rounds too
+  // for (let i = -2; i < roundCount * 2 + 2 * 2; i++) {
+  //   // the last + 1 is the number of instruction pages
+
+  //   // the initial two practice rounds with only initial guesses
+  //   if (i < 0) {
+  //     const round = game.addRound({
+  //       data: {
+  //         task: practiceData[i + 2],
+  //         practice: true,
+  //         case: "initial",
+  //         effectiveIndex: i + 3,
+  //       },
+  //     });
+  //     round.addStage({
+  //       name: "practice-initial",
+  //       displayName: "Practice - Initial Prediction",
+  //       durationInSeconds: stageDuration,
+  //       data: {
+  //         type: "solo",
+  //         practice: true,
+  //         questionText: questionText,
+  //       },
+  //     });
+  //     continue;
+  //   }
+  //   //the start of the real game only initial guesses
+  //   if (i >= 0 && i < roundCount) {
+  //     const round = game.addRound({
+  //       data: {
+  //         task: shuffledData[i],
+  //         practice: false,
+  //         case: "initial",
+  //         effectiveIndex: i + 1,
+  //       },
+  //     });
+  //     round.addStage({
+  //       name: "initial",
+  //       displayName: "Initial Prediction",
+  //       durationInSeconds: stageDuration,
+  //       data: {
+  //         type: "solo",
+  //         practice: false,
+  //         questionText: questionText,
+  //       },
+  //     });
+  //     continue;
+  //   }
+
+  //   if (playerCount > 1) {
+  //     // only if there is an AI
+  //     //now instructions
+  //     if (i === roundCount) {
+  //       const round = game.addRound({
+  //         data: {
+  //           practice: false,
+  //           case: "instruction",
+  //           effectiveIndex: null,
+  //         },
+  //       });
+  //       round.addStage({
+  //         name: "instruction",
+  //         displayName: "Instructions: Now you will revise",
+  //         durationInSeconds: stageDuration + 100000,
+  //         data: {
+  //           instruction: true,
+  //         },
+  //       });
+  //       continue;
+  //     }
+
+  //     ////now the practice round revision
+  //     if (i > roundCount && i < roundCount + 3) {
+  //       const round = game.addRound({
+  //         data: {
+  //           task: practiceData[i - roundCount - 1],
+  //           practice: true,
+  //           case: "revise",
+  //           effectiveIndex: i - roundCount,
+  //         },
+  //       });
+  //       round.addStage({
+  //         name: "practice-social",
+  //         displayName: "Practice - Revise Prediction",
+  //         durationInSeconds: socialStageDuration,
+  //         data: {
+  //           type: "social",
+  //           practice: true,
+  //           questionText: questionText,
+  //           interpretationType: interpretationType,
+  //         },
+  //       });
+
+  //       if (feedback) {
+  //         round.addStage({
+  //           name: "practice-outcome",
+  //           displayName: "Case Outcome",
+  //           durationInSeconds: stageDuration,
+  //           data: {
+  //             type: "feedback",
+  //             practice: false,
+  //             interpretationType: interpretationType,
+  //           },
+  //         });
+  //       }
+  //       continue;
+  //     }
+
+  //     if (i > roundCount + 3) {
+  //       const round = game.addRound({
+  //         data: {
+  //           task: shuffledData[i - (roundCount + 2 + 2)],
+  //           practice: false,
+  //           case: "revise", //whether revising the task
+  //           effectiveIndex: i - (roundCount + 2 + 1), // the two practice + instruction page
+  //         },
+  //       });
+  //       round.addStage({
+  //         name: "social",
+  //         displayName: "Interactive Prediction",
+  //         durationInSeconds: socialStageDuration,
+  //         data: {
+  //           type: "social",
+  //           practice: false,
+  //           questionText: questionText,
+  //           interpretationType: interpretationType,
+  //         },
+  //       });
+  //       if (feedback) {
+  //         round.addStage({
+  //           name: "outcome",
+  //           displayName: "Case Outcome",
+  //           durationInSeconds: stageDuration,
+  //           data: {
+  //             type: "feedback",
+  //             practice: false,
+  //             interpretationType: interpretationType,
+  //           },
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 });
 
 //

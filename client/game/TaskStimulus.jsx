@@ -102,10 +102,10 @@ export default class TaskStimulus extends React.Component {
   state = { interestValue: 0.08 };
 
   render() {
-    const { round } = this.props;
+    const { round, stage} = this.props;
     const task = round.get("task") || {};
     const pairData = task.features || {};
-
+    
     return (
       <div className="couples">
         <PersonCard pairData={pairData} isPartner />

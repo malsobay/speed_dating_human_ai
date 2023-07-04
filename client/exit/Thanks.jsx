@@ -6,7 +6,7 @@ export default class Thanks extends React.Component {
   static stepName = "Thanks";
   render() {
     const { player } = this.props;
-    const submissionCode = "Submission code: " + player._id;
+    const submissionCode = "Submission code: C10D0RKL";
     return (
       <div className="thanks-page">
         <NonIdealState

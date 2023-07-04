@@ -9,31 +9,16 @@ export default class InstructionInteractiveRound extends React.Component {
     return (
       <Centered>
         <div className="instructions">
-          <h1 className={"bp3-heading"}> Instructions - Interactive Round</h1>
+          <h1 className={"bp3-heading"}> AI Predictions in Step 2</h1>
 
-          {!game.treatment.revealBots ? (
+          {game.treatment.interpretationType === "Global" ? (
             <div>
               <p>
-                Now we provide the other player's predictions for your last
-                forecasts.
+                After making your initial prediction in Step 1, you will be shown the AI's prediction for the couple from Step 1.
               </p>
               <p>
-                You can decide whether or not to modify the predictions made in
-                the previous step. You can choose to modify your predictions at
-                any point. If you want to modify your results, select the value
-                you want, otherwise please reselect the same value.
-              </p>
-            </div>
-          ) : game.treatment.interpretationType === "Global" ? (
-            <div>
-              <p>
-                Now we provide the A.I. model predictions for your last
-                forecasts.
-              </p>
-              <p>
-                You can decide whether or not to modify the predictions made in
-                the previous step. You can choose to modify your predictions at
-                any point. If you want to modify your results, select the value
+                You can then decide whether or not to modify the predictions made in
+                the previous step. If you want to modify your results, select the value
                 you want, otherwise please reselect the same value.
               </p>
               <p>
@@ -47,7 +32,7 @@ export default class InstructionInteractiveRound extends React.Component {
                 src="/task/tasks/global.png"
               />
               <p>
-                According to A.I. algorithm,{" "}
+                According to the A.I. algorithm,{" "}
                 <strong>Man’s Attractiveness</strong>,{" "}
                 <strong>Woman’s Attractiveness</strong>, and{" "}
                 <strong>Woman’s Fun</strong> are the most important factors
@@ -56,8 +41,7 @@ export default class InstructionInteractiveRound extends React.Component {
                 <strong>Man’s Fun</strong> .
               </p>
               <p>
-                On the other hand, the algorithm indicates that the
-                <strong>Participant’s Sincerity</strong> or{" "}
+                On the other hand, the algorithm indicates that the <strong>Man/Woman's Sincerity</strong> or{" "}
                 <strong>Man’s Ambition</strong> has little effect on whether a
                 speed date will be in a match. Whether the participants are of
                 the <strong>Same Race</strong> or <strong>Man’s Race</strong> is
@@ -67,13 +51,11 @@ export default class InstructionInteractiveRound extends React.Component {
           ) : game.treatment.interpretationType === "Local" ? (
             <div>
               <p>
-                Now we provide the A.I. model predictions for your last
-                forecast.
+              After making your initial prediction in Step 1, you will be shown the AI's prediction for the couple from Step 1.
               </p>
               <p>
-                You can decide whether or not to modify the predictions made in
-                the previous step. You can choose to modify your predictions at
-                any point. If you want to modify your results, select the value
+              You can then decide whether or not to modify the predictions made in
+                the previous step. If you want to modify your results, select the value
                 you want, otherwise please reselect the same value.
               </p>
               <p>
@@ -109,18 +91,12 @@ export default class InstructionInteractiveRound extends React.Component {
           ) : (
             <div>
               <p>
-                Now we provide the A.I. model predictions for your last
-                forecasts.
+              After making your initial prediction in Step 1, you will be shown the AI's prediction for the couple from Step 1.
               </p>
               <p>
-                You can decide whether or not to modify the predictions made in
-                the previous step. You can choose to modify your predictions at
-                any point. If you want to modify your results, select the value
+              You can then decide whether or not to modify the predictions made in
+                the previous step. If you want to modify your results, select the value
                 you want, otherwise please reselect the same value.
-              </p>
-              <p>
-                If you want to modify your results, select the value you want,
-                otherwise please reselect the same value.
               </p>
             </div>
           )}

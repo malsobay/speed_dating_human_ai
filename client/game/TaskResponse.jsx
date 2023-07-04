@@ -21,7 +21,7 @@ const TimedButton = StageTimeWrapper((props) => {
       disabled={disabled}
     >
       {disabled
-        ? "Wait for " + Math.abs(remainingSeconds - activateAt) + "s"
+        ? "Submission enabled in " + Math.abs(remainingSeconds - activateAt) + "s..."
         : stage.name === "outcome" || stage.name === "practice-outcome"
         ? "Next"
         : "Submit Prediction"}
@@ -129,7 +129,7 @@ export default class TaskResponse extends React.Component {
         <h3> </h3>
         {this.renderSlider(true)}
         <button type="button" className="btn-prediction-big" disabled={true}>
-          Submit Prediction
+          Prediction Submitted -- please wait for other players...
         </button>
       </div>
     );
@@ -155,13 +155,13 @@ export default class TaskResponse extends React.Component {
           </h3>
         )}
         {this.renderSlider(isOutcome)}
-        {this.renderResult()}
         <TimedButton
           stage={stage}
           player={player}
-          activateAt={60}
+          activateAt={stage.name === "initial" ? 90 : stage.name === "social" ? 45 : stage.name === "social" ? 15 : 1000 }
           onClick={this.handleSubmit}
         />
+        {this.renderResult()}
       </div>
     );
   }

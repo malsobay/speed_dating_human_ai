@@ -56,8 +56,7 @@ export default class ExitSurvey extends React.Component {
       <div>
         <h1> Exit Survey </h1>
         <h3>
-          Please submit the following code to receive your bonus:{" "}
-          <em>{player._id}</em>.
+          Please submit the following code to receive your bonus: <strong>C10D0RKL</strong>
         </h3>
         <p>
           Your final{" "}
@@ -68,7 +67,7 @@ export default class ExitSurvey extends React.Component {
           <strong>
             <em>$1 base reward</em>
           </strong>{" "}
-          for completing the HIT.
+          for completing the task.
         </p>
       </div>
     );
@@ -235,7 +234,7 @@ export default class ExitSurvey extends React.Component {
             </FormGroup>
           </div>
 
-          {game.treatment.playerCount > 1 ? (
+          
             <div>
               <div className="form-line">
                 <RadioGroup
@@ -288,7 +287,7 @@ export default class ExitSurvey extends React.Component {
                 <RadioGroup
                   inline={true}
                   name="botTrust"
-                  label="Having experienced the A.I. system, do you trust the A.I. prediction systems?*"
+                  label="Having experienced the A.I. system, do you trust the A.I. prediction system?*"
                   onChange={this.handleChange}
                   selectedValue={botTrust}
                   required
@@ -335,7 +334,7 @@ export default class ExitSurvey extends React.Component {
                 <RadioGroup
                   inline={true}
                   name="botAdopt"
-                  label="Having experienced the A.I. system, how likely would you be to adopt A.I. prediction systems?*"
+                  label="Having experienced the A.I. system, how likely would you be to adopt A.I. prediction systems in your own work?*"
                   onChange={this.handleChange}
                   selectedValue={botAdopt}
                   required
@@ -446,9 +445,7 @@ export default class ExitSurvey extends React.Component {
                 </FormGroup>
               </div>
             </div>
-          ) : (
-            ""
-          )}
+         
 
           <Button type="submit" intent={"primary"} rightIcon={"key-enter"}>
             Submit
