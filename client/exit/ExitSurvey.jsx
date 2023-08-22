@@ -24,6 +24,7 @@ export default class ExitSurvey extends React.Component {
     botAdopt: "",
     botUseful: "",
     comments: "",
+    advice: "",
   };
 
   handleChange = (event) => {
@@ -73,7 +74,7 @@ export default class ExitSurvey extends React.Component {
     );
   };
 
-  exitForm = (game) => {
+  exitForm = (game, player) => {
     const {
       age,
       gender,
@@ -86,7 +87,10 @@ export default class ExitSurvey extends React.Component {
       botAdopt,
       botUseful,
       comments,
+      advice
     } = this.state;
+    
+    const otherPlayers = _.reject(game.players, p => p._id === player._id);
 
     return (
       <div>
@@ -94,8 +98,34 @@ export default class ExitSurvey extends React.Component {
         <p>
           Please answer the following short survey. Fields with asterisk (*) are
           required.
-        </p>
+        </p><br/>
         <form onSubmit={this.handleSubmit}>
+        <div className="form-line">
+            <RadioGroup
+              inline={true}
+              name="advice"
+              label="Which of your teammates gave the best advice on how to use the AI's predictions, and should receive an added bonus? You can choose not to answer if the advice you received was not helpful."
+              onChange={this.handleChange}
+              selectedValue={advice}
+            >
+              <Radio
+                selected={advice}
+                name="advice"
+                value={otherPlayers[0]._id}
+                label={otherPlayers[0].get("name")}
+                onChange={this.handleChange}
+              />
+              <Radio
+                selected={advice}
+                name="advice"
+                value={otherPlayers[1]._id}
+                label={otherPlayers[1].get("name")}
+                onChange={this.handleChange}
+              />
+            </RadioGroup>
+            <br/>
+          </div>
+
           <div className="form-line">
             <FormGroup
               inline={true}
@@ -216,10 +246,9 @@ export default class ExitSurvey extends React.Component {
             <FormGroup
               className={"form-group"}
               inline={false}
-              label={"Feedback, including problems you encountered.*"}
+              label={"Feedback, including problems you encountered, if any"}
               labelFor={"fair"}
               //className={"form-group"}
-              required
             >
               <TextArea
                 id="feedback"
@@ -229,7 +258,6 @@ export default class ExitSurvey extends React.Component {
                 onChange={this.handleChange}
                 value={feedback}
                 fill={true}
-                required
               />
             </FormGroup>
           </div>
@@ -462,7 +490,7 @@ export default class ExitSurvey extends React.Component {
         <div className="exit-survey">
           {this.exitMessage(player, game)}
           <hr />
-          {this.exitForm(game)}
+          {this.exitForm(game, player)}
         </div>
       </Centered>
     );

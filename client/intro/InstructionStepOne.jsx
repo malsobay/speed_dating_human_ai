@@ -85,7 +85,7 @@ export default class InstructionStepOne extends React.Component {
             you). More details about Step 2 will be shown next.
           </p>
 
-          {game.treatment.playerCount > 1 && 
+          {/* {game.treatment.playerCount > 1 && 
           <div>
             <h3>
               <u>Discussion:</u>
@@ -96,7 +96,7 @@ export default class InstructionStepOne extends React.Component {
              Feel free to discuss anything related to the game, such as your strategies, or the AI's predictions, etc...
           </p>
           </div>
-          }
+          } */}
           
           <h3>
             <u>Scoring:</u>
@@ -104,12 +104,12 @@ export default class InstructionStepOne extends React.Component {
           <p>
             At the end of the experiment, you will get points based on the
             accuracy of your Step 2 predictions (the predictions you made after
-            receiving the AI system’s predictions). <strong>Accuracy is defined by how close your prediction is to the correct answer (the correct answer is 0 if the couple did not go on a second date, 1 if they did).</strong>
+            receiving the AI system’s predictions). <strong>Accuracy is defined by how close your prediction is to the correct answer (the correct answer is 0 if the couple did not go on a second date, 1 if they did).</strong>{" "}
             Please note that the largest portion of your pay is dependent on the accuracy of your Step 2
             predictions (more accurate predictions mean higher scores, and
             therefore greater payment for this game).
           </p>
-          <p><strong>{game.treatment.playerCount > 1 ? "You are judged only on your own predictions, not those of any other player.":""}</strong>. </p>
+          <p><strong>{game.treatment.playerCount > 1 ? "You are judged only on your own predictions, not those of any other player.":""}</strong></p>
 
           {/* <p>
             {game.treatment.playerCount > 1 ? " In step 1, y" : "Y"}

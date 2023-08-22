@@ -20,7 +20,7 @@ export default class PlayerProfile extends React.Component {
         
         {game.treatment.giveFeedback ? 
         <div className="value-label">
-          <span>SCORE</span> {(player.get("cumulativeScore") || 0).toFixed(2)}
+          <span>TOTAL SCORE</span> {(player.get("cumulativeScore") || 0).toFixed(2)}
         </div> : <div className="value-label"></div> } 
       </>
     );

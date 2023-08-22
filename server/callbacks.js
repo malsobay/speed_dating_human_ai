@@ -47,6 +47,8 @@ Empirica.onGameStart((game) => {
     player.set("name", names[i]);
     player.set("nameColor", nameColor[i]);
     player.set("cumulativeScore", 0);
+    player.set("lastInteraction", Date.now());
+    player.set("woaHistory", []);
     player.stage.set("firstPrediction", player.round.get("firstPrediction"));
   });
 
@@ -118,6 +120,28 @@ Empirica.onRoundStart((game, round) => {
 // onStageStart is triggered before each stage starts.
 // It receives the same options as onRoundStart, and the stage that is starting.
 Empirica.onStageStart((game, round, stage) => {
+
+  // if (stage.index != 0){
+  //   _.reject(game.players, (p) => p.get("exited")).forEach(player => {
+  //     if (Date.now() - player.get("lastInteraction") > 60 * 1000){
+  //       player.log("playerRemoved", {
+  //         verb:"playerRemoved", 
+  //         playerId:player._id, 
+  //         timestamp:Date.now()});
+  //       player.set('exited', true);
+  //       player.exit("idleTimedOut");
+  //       console.log(`Player ${player._id} removed for being idle.`);
+  //     }
+  //   })
+  // }
+
+  // autosubmit for players who have been kicked
+  game.players.forEach((player, i) => {
+    if(player.get("exited")){
+      player.stage.submit();
+    }
+  });
+
   console.log("onstage start now");
 
   if (round.get("case") === "revise" && game.treatment.giveFeedback) {
@@ -152,6 +176,15 @@ Empirica.onStageEnd((game, round, stage) => {});
 // onRoundEnd is triggered after each round.
 // It receives the same options as onGameEnd, and the round that just ended.
 Empirica.onRoundEnd((game, round) => {
+
+  // This will fail in weird ways for woa calculation if the user doesn't submit an initial prediction
+  if (round.get("case") === "initial") {
+    game.players.forEach((player) => {
+      player.set("lastInitialPrediction", player.round.get("prediction"));
+    });
+  }
+
+
   if (round.get("case") === "initial") {
     game.players.forEach((player) => {
       const prediction = player.round.get("prediction");
@@ -210,6 +243,21 @@ Empirica.onRoundEnd((game, round) => {
       );
     });
   }
+
+  if (round.get("case") === "revise" && !round.get("practice")) {
+    game.players.forEach((player) => {
+      const modelPred = round.get("task").model_prediction_prob; 
+      const intialPred = player.get("lastInitialPrediction");
+      const finalPred = player.round.get("prediction");
+      const woa = (finalPred - intialPred) / (modelPred - intialPred);
+
+      player.set(
+        "woaHistory",
+        [...player.get("woaHistory"), woa]
+      );
+    });
+  }
+
 });
 
 // onGameEnd is triggered when the game ends.

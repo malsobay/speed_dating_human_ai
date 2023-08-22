@@ -1,7 +1,8 @@
 import { render } from "react-dom";
 import Empirica from "meteor/empirica:core";
 import InstructionStepOne from "./intro/InstructionStepOne";
-import InstructionInteractiveRound from "./intro/InstructionInteractiveRound";  
+import InstructionInteractiveRound from "./intro/InstructionInteractiveRound"; 
+import SocialInstructions from "./intro/SocialInstructions"; 
 import QuizStepOne from "./intro/QuizStepOne";
 import Quiz from "./intro/Quiz";
 import PreRound from "./intro/PreRound";
@@ -19,9 +20,15 @@ Empirica.breadcrumb(null);
 // Introduction pages to show before they play the game (optional).
 // At this point they have been assigned a treatment. You can return
 // different instruction steps depending on the assigned treatment.
-Empirica.introSteps(() => {
-  const steps = [InstructionStepOne, InstructionInteractiveRound, Quiz];
-  return steps;
+Empirica.introSteps((game) => {
+  if (game.treatment.playerCount > 1){
+    return [InstructionStepOne, InstructionInteractiveRound, SocialInstructions, Quiz];
+  }
+  else{
+    return [InstructionStepOne, InstructionInteractiveRound, Quiz];
+  }
+  // const steps = 
+  // return [];
 });
 
 // The Round component containing the game UI logic.

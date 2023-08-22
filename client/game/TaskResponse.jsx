@@ -13,6 +13,7 @@ const TimedButton = StageTimeWrapper((props) => {
   const { onClick, activateAt, remainingSeconds, stage } = props;
 
   const disabled = remainingSeconds > activateAt;
+  // const disabled = false;
   return (
     <button
       type="button"
@@ -158,7 +159,7 @@ export default class TaskResponse extends React.Component {
         <TimedButton
           stage={stage}
           player={player}
-          activateAt={stage.name === "initial" ? 90 : stage.name === "social" ? 45 : stage.name === "social" ? 15 : 1000 }
+          activateAt={stage.name === "initial" ? 105 : stage.name === "social" ? 45 : stage.name === "social" ? 15 : 1000 }
           onClick={this.handleSubmit}
         />
         {this.renderResult()}
