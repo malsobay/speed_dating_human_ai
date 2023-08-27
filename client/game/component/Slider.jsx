@@ -10,13 +10,12 @@ export default (props) => {
     onSlideChange(num);
   };
 
-  const { player, round, stage, onSlideChange, disabled } = props;
+  const { player, round, stage, game, onSlideChange, disabled } = props;
 
   let value = player.round.get("prediction");
 
-  const predictionProb =
-    round.get("model_prediction_prob") ||
-    round.get("task").model_prediction_prob;
+  const modelAccuracy = game.treatment.modelAccuracy;
+  const predictionProb = modelAccuracy == "high" ? round.get("task").model_prediction_prob_highAcc : round.get("task").model_prediction_prob_lowAcc; 
 
   const effectiveIndex = round.get("effectiveIndex");
   const predictionPrefix = round.get("practice")

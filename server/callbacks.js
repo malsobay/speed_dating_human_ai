@@ -62,7 +62,7 @@ Empirica.onRoundStart((game, round) => {
     game.players.forEach((player) => {
       player.round.set("score", 0);
       if (player.bot) {
-        player.round.set("prediction", round.get("task").model_prediction_prob);
+        // player.round.set("prediction", round.get("task").model_prediction_prob);
       } else {
         player.round.set("prediction", null);
         // player.round.set("prediction", 0.5);
@@ -83,7 +83,7 @@ Empirica.onRoundStart((game, round) => {
   if (round.get("case") === "revise") {
     game.players.forEach((player) => {
       if (player.bot) {
-        player.round.set("prediction", round.get("task").model_prediction_prob);
+        // player.round.set("prediction", round.get("task").model_prediction_prob);
       } else {
         if (round.get("practice")) {
           console.log(
@@ -246,7 +246,8 @@ Empirica.onRoundEnd((game, round) => {
 
   if (round.get("case") === "revise" && !round.get("practice")) {
     game.players.forEach((player) => {
-      const modelPred = round.get("task").model_prediction_prob; 
+      const modelAccuracy = game.treatment.modelAccuracy;
+      const modelPred = modelAccuracy == "high" ? round.get("task").model_prediction_prob_highAcc : round.get("task").model_prediction_prob_lowAcc; 
       const intialPred = player.get("lastInitialPrediction");
       const finalPred = player.round.get("prediction");
       const woa = (finalPred - intialPred) / (modelPred - intialPred);
