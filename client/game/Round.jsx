@@ -41,6 +41,8 @@ export default class Round extends React.Component {
   }
 
   renderSocialInteraction(otherPlayer) {
+    const { game } = this.props;
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
     const meanWoA = _.mean(otherPlayer.get("woaHistory")).toFixed(2); 
     const meanWoALabel = meanWoA < 0 ? "Contradicting" : meanWoA <= 1 ? "Moderately reliant" : "Highly reliant";
     return (
@@ -51,7 +53,7 @@ export default class Round extends React.Component {
           
           <div>
             <span style={{color:otherPlayer.get("nameColor")}}><strong>{otherPlayer.get("name")}</strong></span>
-            {true && 
+            {socialInfoMode == "statusIndicators" && 
             <>
             <p><strong>Reliance:</strong> {meanWoALabel}</p>
             <p><strong>Score:</strong> {otherPlayer.get("cumulativeScore").toFixed(2)}</p>
@@ -120,61 +122,20 @@ export default class Round extends React.Component {
     );
   }
 
-  render() {
+  renderIndicatorSocialInfo() {
     const { round, stage, player, game} = this.props;
     const otherPlayers = _.reject(game.players, p => p._id === player._id);
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
 
-    if(stage.name == "discussion"){
-      return (
-        <main className={`main-container ${"single-column"}`}
-              onMouseDown={_.throttle(function(){
-                player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
-              }, 1000)}
-              onKeyDown={_.throttle(function(){
-                player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
-              }, 5000)}
-        >
-          {<IdleToast {...this.props} />}
-
-          <header className="header-left">
-            <PlayerProfile
-              player={player}
-              stage={stage}
-              game={game}
-              round={round}
-            />
-          </header>
-          <section className="socialinfo-container">
-            <h1>Below, you are shown your group members' level of reliance on the AI's predictions, and their total scores up until this round.</h1>
-            <div style={{display: "flex", justifyContent: "center"}}>
-              <div className = "socialcard" style={{display: "flex-column", justifyContent: "center"}}>
-                <h1>Group members:</h1>
-                {otherPlayers.map(p => this.renderSocialInteraction(p))}
-              </div>
-              <img src="reliance_levels.png" style={{maxWidth: "60%"}}></img>
-            </div>
-            <br/>
-            <br/>
-            <div style={{display: "flex", justifyContent: "center"}}>
-              {player.stage.submitted ? this.renderSubmitted() : <button type="button" className="btn-prediction-big" onClick={player.stage.submit}>Proceed</button>}
-            </div>
-            
-          </section>
-          
-          
-        </main>
-    )};
-
-    if(stage.name == "discussion"){
-      return (
-        <main className={`main-container ${"single-column"}`}
-              onMouseDown={_.throttle(function(){
-                player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
-              }, 1000)}
-              onKeyDown={_.throttle(function(){
-                player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
-              }, 5000)}
-        >
+    return (
+      <main className={`main-container ${"single-column"}`}
+            onMouseDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 1000)}
+            onKeyDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 5000)}
+      >
         {<IdleToast {...this.props} />}
 
         <header className="header-left">
@@ -185,30 +146,85 @@ export default class Round extends React.Component {
             round={round}
           />
         </header>
-
-
-        <section className="discussion-container">
-          <section className="chat-container" style={{flex: 2}}>
-            <p className="chat-title"><strong>Feel free to discuss the task with your group</strong></p>
-            <Chat player={player} scope={round} />
-          </section>
-          <div></div>
-          
-          <div className="social-exposure" style={{float:'left', flex:1}}>
-            <h3>You are <span style={{color:player.get("nameColor")}}>{player.get("name")}</span> </h3>
-            <p><strong>There are {otherPlayers.length} other players:</strong></p>
-            {otherPlayers.map(p => this.renderSocialInteraction(p))}
-            <br/>
-            {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={240 - 90} onClick={player.stage.submit}
-        />}
+        <section className="socialinfo-container">
+          <h1>Below, you are shown your group members' level of reliance on the AI's predictions, and their total scores up until this round.</h1>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <div className = "socialcard" style={{display: "flex-column", justifyContent: "center"}}>
+              <h1>Group members:</h1>
+              {otherPlayers.map(p => this.renderSocialInteraction(p))}
+            </div>
+            <img src="reliance_levels.png" style={{maxWidth: "60%"}}></img>
           </div>
-         
+          <br/>
+          <br/>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            {player.stage.submitted ? this.renderSubmitted() : <button type="button" className="btn-prediction-big" onClick={player.stage.submit}>Proceed</button>}
+          </div>
+          
         </section>
         
-
+        
       </main>
-      );
-    }
+  )
+  }
+
+  renderChatSocialInfo() {
+    const { round, stage, player, game} = this.props;
+    const otherPlayers = _.reject(game.players, p => p._id === player._id);
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
+
+    return (
+      <main className={`main-container ${"single-column"}`}
+            onMouseDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 1000)}
+            onKeyDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 5000)}
+      >
+      {<IdleToast {...this.props} />}
+
+      <header className="header-left">
+        <PlayerProfile
+          player={player}
+          stage={stage}
+          game={game}
+          round={round}
+        />
+      </header>
+
+
+      <section className="discussion-container">
+        <section className="chat-container" style={{flex: 2}}>
+          <p className="chat-title"><strong>Discuss how to best utilize the AI's predictions in making your own predictions</strong></p>
+          <Chat player={player} scope={round} />
+        </section>
+        <div></div>
+        
+        <div className="social-exposure" style={{float:'left', flex:1}}>
+          <h3>You are <span style={{color:player.get("nameColor")}}>{player.get("name")}</span> </h3>
+          <p><strong>There are {otherPlayers.length} other players:</strong></p>
+          {otherPlayers.map(p => this.renderSocialInteraction(p))}
+          <br/>
+          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={240 - 90} onClick={player.stage.submit}
+      />}
+        </div>
+       
+      </section>
+      
+
+    </main>
+    )
+  }
+
+  render() {
+    const { round, stage, player, game} = this.props;
+    const otherPlayers = _.reject(game.players, p => p._id === player._id);
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
+
+    if(stage.name == "socialInfo" & socialInfoMode == "statusIndicators"){this.renderIndicatorSocialInfo()};
+
+    if(stage.name == "socialInfo" & socialInfoMode == "chat"){this.renderChatSocialInfo()};
 
     return round.get("case") === "instruction"
       ? this.renderInstructions()

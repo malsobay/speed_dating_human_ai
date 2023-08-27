@@ -149,14 +149,12 @@ Empirica.gameInit((game) => {
   const playerCount = game.treatment.playerCount || 1;
   const interpretationType = game.treatment.interpretationType || "None";
   const feedback = game.treatment.giveFeedback || false;
-  // const stageDuration = 400;
-  // const socialStageDuration = 400;
   const discussionFrequency = game.treatment.discussionFrequency || 2;
-  
   const initialPredictionDuration = game.treatment.initialPredictionDuration || 120;
   const revisionDuration = game.treatment.revisionDuration || 60;
   const feedbackDuration = game.treatment.feedbackDuration || 30;
-  const discussionDuration = game.treatment.discussionDuration || 240;
+  const socialInfoDuration = game.treatment.socialInfoDuration || 240;
+  const socialInfoMode = game.treatment.socialInfoMode || "None";
   
   for (i=0; i < 10; i++) {
     var round = game.addRound({
@@ -189,7 +187,7 @@ Empirica.gameInit((game) => {
     });
 
     round.addStage({
-      name: "social",
+      name: "revision",
       displayName: "Interactive Prediction",
       durationInSeconds: revisionDuration,
       data: {
@@ -221,9 +219,9 @@ Empirica.gameInit((game) => {
         },
       });
       round.addStage({
-        name: "discussion",
-        displayName: "Discussion",
-        durationInSeconds: discussionDuration
+        name: "socialInfo",
+        displayName: "Group Information",
+        durationInSeconds: socialInfoDuration
       });
     }
 

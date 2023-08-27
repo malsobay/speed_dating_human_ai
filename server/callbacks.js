@@ -264,7 +264,6 @@ Empirica.onRoundEnd((game, round) => {
 // It receives the same options as onGameStart.
 Empirica.onGameEnd((game) => {
   console.log("The game", game._id, "has ended");
-  //const nStages = game.treatment.nBlocks * game.players.length + 1;
   const conversionRate = game.treatment.conversionRate;
 
   game.players.forEach((player) => {

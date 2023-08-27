@@ -111,54 +111,6 @@ export default class InstructionStepOne extends React.Component {
           </p>
           <p><strong>{game.treatment.playerCount > 1 ? "You are judged only on your own predictions, not those of any other player.":""}</strong></p>
 
-          {/* <p>
-            {game.treatment.playerCount > 1 ? " In step 1, y" : "Y"}
-            ou will be asked to guess whether or not a couple will want to date
-            each other again given the demographics of participants and their
-            ratings of each other. To be more specific,{" "}
-            <strong>
-              you will predict the probability of success (i.e., probability
-              that a couple will want to date each other) for{" "}
-              {game.treatment.roundCount} different dates.
-            </strong>
-          </p> */}
-
-          {/* {game.treatment.playerCount > 1 ? (
-            <p>
-              In step 2, you will be provided with predictions of an A.I. system
-              for the same cases you reviewed in step 1. In this step, you can
-              decide whether or not to modify the predictions made in step 1. If
-              you do not want to modify your previous forecast, please submit
-              the same results as in step 1.
-            </p>
-          ) : null} */}
-
-          {/* <p>
-            At the end of the experiment, you will get points based on the
-            accuracy of your final prediction{" "}
-            {game.treatment.playerCount > 1
-              ? "i.e., after you have received the AI recommendation"
-              : "."}{" "}
-            Note that the biggest portion of your pay is dependent on your
-            performance (i.e., accuracy) in this task.
-          </p>
-
-          <p>
-            <span style={{ color: "red" }}>
-              <strong>
-                The more accurate your prediction, the higher your score and
-                therefore greater your payout in this game.
-              </strong>
-              .
-            </span>
-          </p>
-
-          <p>
-            Now let's take part in the game, get high scores, and beat other
-            players
-            {game.treatment.playerCount > 1 ? "and even A.I." : "."}{" "}
-          </p> */}
-
           <p className="action-step">
             <button type="button" onClick={onPrev} disabled={!hasPrev}>
               Previous
