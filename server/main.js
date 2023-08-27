@@ -16,67 +16,7 @@ import data from "./experiment_data/task_data";
 let questionText =
   "Please review the profile below and predict whether they would like to date again.";
 
-// {
-//     "Classes": "Introduction",
-//     "_id": 1049,
-//     "correct_answer": "Yes",
-//     "model_prediction": "Yes",
-//     "model_prediction_prob": 0.7641131281852722,
-//     "features": {
-//       "Interests Correlation": 0.08,
-//       "Woman's Race": "European/Caucasian-American",
-//       "Woman's Age": 21.0,
-//       "Woman's Attractive": 8.0,
-//       "Woman's Sincere": 5.0,
-//       "Woman's Intelligent": 5.0,
-//       "Woman's Fun": 7.0,
-//       "Woman's Ambitious": 7.0,
-//       "Woman's SharedInterests": 9.0,
-//       "Man's Race": "European/Caucasian-American",
-//       "Man's Age": 23.0,
-//       "Man's Attractive": 6.0,
-//       "Man's Sincere": 8.0,
-//       "Man's Intelligent": 6.0,
-//       "Man's Fun": 8.0,
-//       "Man's Ambitious": 10.0,
-//       "Man's SharedInterests": 10.0,
-//       "Same Race": "Yes"
-//     },
-//     "model_global_explination": "/task/tasks/global.png",
-//     "model_local_explination": "/task/tasks/1049.png"
-//   },
-
 let practiceData = [
-  // {
-  //   Classes: "Introduction",
-  //   _id: 1049,
-  //   correct_answer: "Yes",
-  //   model_prediction: "Yes",
-  //   model_prediction_prob: 0.7641131281852722,
-  //   features: {
-  //     InterestsCorr: 0.08,
-  //     Gender: "Woman",
-  //     Race: "European/Caucasian-American",
-  //     Age: 21.0,
-  //     Attractive: 8.0,
-  //     Sincere: 5.0,
-  //     Intelligent: 5.0,
-  //     Fun: 7.0,
-  //     Ambitious: 7.0,
-  //     SharedInterests: 9.0,
-  //     Gender_Partner: "Man",
-  //     Race_Partner: "European/Caucasian-American",
-  //     Age_Partner: 23.0,
-  //     Attractive_Partner: 6.0,
-  //     Sincere_Partner: 8.0,
-  //     Intelligent_Partner: 6.0,
-  //     Fun_Partner: 8.0,
-  //     Ambitious_Partner: 10.0,
-  //     SharedInterests_Partner: 10.0
-  //   },
-  //   model_global_explination: "/task/tasks/global.png",
-  //   model_local_explination: "/task/tasks/1049.png"
-  // },
   {
     Classes: "Pratice",
     _id: 853,
