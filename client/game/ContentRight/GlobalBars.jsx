@@ -1,6 +1,7 @@
 import React from "react";
 
-import modelGlobalJson from "../../model_global.json";
+import modelGlobalJson_highAcc from "../../model_global_highAcc.json";
+import modelGlobalJson_lowAcc from "../../model_global_lowAcc.json";
 
 export default class GlobalBars extends React.Component {
   renderBar = (maxValue, { title, value, gender }) => {
@@ -17,6 +18,9 @@ export default class GlobalBars extends React.Component {
   };
 
   render() {
+    const {game} = this.props;
+    const modelAccuracy = game.treatment.modelAccuracy;
+    const modelGlobalJson = modelAccuracy == "high" ? modelGlobalJson_highAcc : modelGlobalJson_lowAcc;
     const values = modelGlobalJson.map((m) => m.value);
     const maxValue = Math.max(...values);
     return (
