@@ -126,6 +126,8 @@ export default class Round extends React.Component {
     const { round, stage, player, game} = this.props;
     const otherPlayers = _.reject(game.players, p => p._id === player._id);
     const socialInfoMode = game.treatment.socialInfoMode || "None";
+    const submissionDelay = 5;
+    const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
 
     return (
       <main className={`main-container ${"single-column"}`}
@@ -172,6 +174,8 @@ export default class Round extends React.Component {
     const { round, stage, player, game} = this.props;
     const otherPlayers = _.reject(game.players, p => p._id === player._id);
     const socialInfoMode = game.treatment.socialInfoMode || "None";
+    const submissionDelay = 20;
+    const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
 
     return (
       <main className={`main-container ${"single-column"}`}
@@ -206,7 +210,7 @@ export default class Round extends React.Component {
           <p><strong>There are {otherPlayers.length} other players:</strong></p>
           {otherPlayers.map(p => this.renderSocialInteraction(p))}
           <br/>
-          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={240 - 90} onClick={player.stage.submit}
+          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={socialInfoTrigger} onClick={player.stage.submit}
       />}
         </div>
        
