@@ -35,7 +35,7 @@ export default class Round extends React.Component {
   renderSubmitted() {
     return (
         <button type="button" className="btn-prediction-big" disabled={true}>
-          Other players are still discussing...
+          "Please wait for other players..."
         </button>
     );
   }
