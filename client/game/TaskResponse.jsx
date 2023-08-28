@@ -137,7 +137,12 @@ export default class TaskResponse extends React.Component {
   }
 
   render() {
-    const { player, stage } = this.props;
+    const { player, stage, game } = this.props;
+    const submissionDelay = 5;
+    const initialPredictionTrigger = game.treatment.initialPredictionDuration - submissionDelay; 
+    const revisionTrigger = game.treatment.revisionDuration - submissionDelay; 
+    const feedbackTrigger = game.treatment.feedbackDuration - submissionDelay;
+    const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
 
     const isOutcome =
       stage.name === "outcome" || stage.name === "practice-outcome";
@@ -159,7 +164,7 @@ export default class TaskResponse extends React.Component {
         <TimedButton
           stage={stage}
           player={player}
-          activateAt={stage.name === "initial" ? 105 : stage.name === "revision" ? 45 : stage.name === "outcome" ? 15 : 1000 }
+          activateAt={stage.name === "initial" ? initialPredictionTrigger : stage.name === "revision" ? revisionTrigger : stage.name === "outcome" ? feedbackTrigger : 1000 }
           onClick={this.handleSubmit}
         />
         {this.renderResult()}
