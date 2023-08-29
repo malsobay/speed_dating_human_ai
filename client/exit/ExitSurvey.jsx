@@ -100,6 +100,7 @@ export default class ExitSurvey extends React.Component {
           required.
         </p><br/>
         <form onSubmit={this.handleSubmit}>
+          {(game.treatment.playerCount > 1 && game.treatment.socialInfoMode == "chat") && 
         <div className="form-line">
             <RadioGroup
               inline={true}
@@ -125,6 +126,7 @@ export default class ExitSurvey extends React.Component {
             </RadioGroup>
             <br/>
           </div>
+          }
 
           <div className="form-line">
             <FormGroup
