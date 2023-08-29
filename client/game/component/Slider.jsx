@@ -30,7 +30,7 @@ export default (props) => {
   const newPrediction = !disabled && stage.get("type") === "social";
 
   stage.name === "outcome" || stage.name === "practice-outcome";
-  const aiPrediction = (!isSolo && predictionProb) || null;
+  const aiPrediction = !isSolo ? predictionProb : null; 
   const userPrediction =
     isSocial && initialPrediction !== null && initialPrediction !== undefined
       ? initialPrediction
