@@ -53,7 +53,7 @@ export default class SocialInstructions extends React.Component {
 
           <p>You will be shown your <strong>group members' average reliance on the AI's predictions</strong>, as well as <strong>their current cumulative score.</strong></p>
           <p>Reliance on the AI is described as either "Contradicting", "Moderately reliant", or "Highly reliant", as detailed below:</p>
-          <img src="reliance_levels.png" style={{maxWidth: "60%"}}></img>
+          <img src="reliance_levels.png" style={{maxWidth: "100%"}}></img>
 
           <p className="action-step">
             <button type="button" onClick={onPrev} disabled={!hasPrev}>
