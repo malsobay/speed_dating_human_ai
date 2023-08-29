@@ -1,6 +1,6 @@
 import React from "react";
 import { BAR_COLORS } from "../../constants/colors";
-import modelLocalJson from "../../model_local.json";
+
 
 import modelLocalJson_highAcc from "../../model_local_highAcc.json";
 import modelLocalJson_lowAcc from "../../model_local_lowAcc.json";
