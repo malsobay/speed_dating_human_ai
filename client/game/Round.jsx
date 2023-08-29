@@ -13,7 +13,7 @@ import IdleToast from "./component/Idle.jsx";
 
 //timed button
 const TimedButton = StageTimeWrapper((props) => {
-  const { onClick, activateAt, remainingSeconds, stage } = props;
+  const { onClick, activateAt, remainingSeconds, stage} = props;
 
   const disabled = remainingSeconds > activateAt;
   return (
@@ -22,6 +22,7 @@ const TimedButton = StageTimeWrapper((props) => {
       className="btn-prediction-big"
       onClick={onClick}
       disabled={disabled}
+      style={{width:"400px"}}
     >
       {disabled
         ? "I'm ready to end discussion and continue. (Enabled after " + Math.abs(remainingSeconds - activateAt) + "s)"
@@ -225,10 +226,14 @@ export default class Round extends React.Component {
     const { round, stage, player, game} = this.props;
     const otherPlayers = _.reject(game.players, p => p._id === player._id);
     const socialInfoMode = game.treatment.socialInfoMode || "None";
+    console.log(stage.name, socialInfoMode)
 
-    if(stage.name == "socialInfo" & socialInfoMode == "statusIndicators"){this.renderIndicatorSocialInfo()};
+    if(stage.name == "socialInfo" & socialInfoMode == "statusIndicators"){
+      return this.renderIndicatorSocialInfo();
+      };
 
-    if(stage.name == "socialInfo" & socialInfoMode == "chat"){this.renderChatSocialInfo()};
+    if(stage.name == "socialInfo" & socialInfoMode == "chat"){
+      return this.renderChatSocialInfo();};
 
     return round.get("case") === "instruction"
       ? this.renderInstructions()

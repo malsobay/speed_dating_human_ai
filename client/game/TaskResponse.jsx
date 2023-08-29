@@ -142,7 +142,7 @@ export default class TaskResponse extends React.Component {
     const initialPredictionTrigger = game.treatment.initialPredictionDuration - submissionDelay; 
     const revisionTrigger = game.treatment.revisionDuration - submissionDelay; 
     const feedbackTrigger = game.treatment.feedbackDuration - submissionDelay;
-    const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
+    
 
     const isOutcome =
       stage.name === "outcome" || stage.name === "practice-outcome";
