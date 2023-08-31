@@ -9,6 +9,7 @@ import Instruction from "./component/Instruction.jsx";
 import { Chat } from "@empirica/chat";
 import { StageTimeWrapper } from "meteor/empirica:core";
 import IdleToast from "./component/Idle.jsx";
+import Slider from "./component/SocialInfoSlider.jsx";
 
 
 //timed button
@@ -36,7 +37,7 @@ export default class Round extends React.Component {
   renderSubmitted() {
     return (
         <button type="button" className="btn-prediction-big" disabled={true}>
-          "Please wait for other players..."
+          Please wait for other players...
         </button>
     );
   }
@@ -64,6 +65,40 @@ export default class Round extends React.Component {
 
         </div>
       </div>
+    );
+  }
+
+  renderSocialInteractionSlider(otherPlayer) {
+    const { game, player } = this.props;
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
+    const previousPredictionSet = otherPlayer.get("predHistory").slice(-1)[0];
+    const showScore = game.treatment.giveFeedback; 
+    const playerIsSelf = player === otherPlayer; 
+    
+    return (
+      <div>
+    <div style={{display: "flex", columnGap: "0.5rem", alignItems: "center"}}>
+        <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <span style={{color: otherPlayer.get("nameColor")}}><strong>{playerIsSelf ? "YOU" : otherPlayer.get("name")}</strong></span>
+            <img src={otherPlayer.get("avatar")} height="50rem"/>
+        </div>
+
+        {socialInfoMode === "statusIndicators" && 
+        <div className="response">
+            <Slider
+                onSlideChange={() => null}
+                disabled={true}
+                focalPlayer={otherPlayer}
+                {...this.props}
+            />
+            <br/>
+            <br/>
+            {showScore && <center><h3>Score: {previousPredictionSet.score.toFixed(2)}</h3></center>}
+        </div>
+        }
+    </div>
+</div>
+
     );
   }
 
@@ -129,6 +164,7 @@ export default class Round extends React.Component {
     const socialInfoMode = game.treatment.socialInfoMode || "None";
     const submissionDelay = 5;
     const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
+    const showScore = game.treatment.giveFeedback;
 
     return (
       <main className={`main-container ${"single-column"}`}
@@ -150,20 +186,21 @@ export default class Round extends React.Component {
           />
         </header>
         <section className="socialinfo-container">
-          <h1>Below, you are shown your group members' level of reliance on the AI's predictions, and their total scores up until this round.</h1>
+          <h2>Below, you are shown how you and your group members utilized the AI's advice on the previous task{showScore ? ", as well as the score each of you received." : "."} Please scroll to the end to proceed.</h2>
           <div style={{display: "flex", justifyContent: "center"}}>
             <div className = "socialcard" style={{display: "flex-column", justifyContent: "center"}}>
-              <h1>Group members:</h1>
-              {otherPlayers.map(p => this.renderSocialInteraction(p))}
+              
+              {/* {otherPlayers.map(p => this.renderSocialInteraction(p))} */}
+              {this.renderSocialInteractionSlider(player)}
+              {otherPlayers.map(p => this.renderSocialInteractionSlider(p))}
             </div>
-            <img src="reliance_levels.png" style={{maxWidth: "60%"}}></img>
+            {/* <img src="reliance_levels.png" style={{maxWidth: "60%"}}></img> */}
           </div>
-          <br/>
           <br/>
           <div style={{display: "flex", justifyContent: "center"}}>
             {player.stage.submitted ? this.renderSubmitted() : <button type="button" className="btn-prediction-big" onClick={player.stage.submit}>Proceed</button>}
           </div>
-          
+          <br/>
         </section>
         
         

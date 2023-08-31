@@ -49,6 +49,7 @@ Empirica.onGameStart((game) => {
     player.set("cumulativeScore", 0);
     player.set("lastInteraction", Date.now());
     player.set("woaHistory", []);
+    player.set("predHistory", []);
     player.stage.set("firstPrediction", player.round.get("firstPrediction"));
   });
 
@@ -256,6 +257,12 @@ Empirica.onRoundEnd((game, round) => {
         "woaHistory",
         [...player.get("woaHistory"), woa]
       );
+
+      player.set(
+        "predHistory",
+        [...player.get("predHistory"), {initial: intialPred, final: finalPred, model: modelPred, score:player.round.get("score")}]
+      );
+
     });
   }
 
