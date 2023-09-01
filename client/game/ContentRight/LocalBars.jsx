@@ -2,8 +2,9 @@ import React from "react";
 import { BAR_COLORS } from "../../constants/colors";
 
 
-import modelLocalJson_highAcc from "../../model_local_highAcc.json";
-import modelLocalJson_lowAcc from "../../model_local_lowAcc.json";
+// import modelLocalJson_highAcc from "../../model_local_highAcc.json";
+// import modelLocalJson_lowAcc from "../../model_local_lowAcc.json";
+import modelLocalJson_default from "../../model_local.json";
 
 export default class LocalBars extends React.Component {
   renderLines = ({ numbefOfLines, minValue, maxValue, step }) => {
@@ -90,7 +91,8 @@ export default class LocalBars extends React.Component {
   render() {
     const { round, game} = this.props;
     const modelAccuracy = game.treatment.modelAccuracy;
-    const modelLocalJson = modelAccuracy == "high" ? modelLocalJson_highAcc : modelLocalJson_lowAcc;
+    // const modelLocalJson = modelAccuracy == "high" ? modelLocalJson_highAcc : modelAccuracy == "low" ? modelLocalJson_lowAcc : modelLocalJson_default;
+    const modelLocalJson = modelLocalJson_default;
     const task = round.get("task");
     const { data } = modelLocalJson.find((m) => m._id === task._id);
     data.sort((a, b) => {

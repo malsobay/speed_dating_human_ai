@@ -15,7 +15,8 @@ export default (props) => {
   let value = player.round.get("prediction");
 
   const modelAccuracy = game.treatment.modelAccuracy;
-  const predictionProb = modelAccuracy == "high" ? round.get("task").model_prediction_prob_highAcc : round.get("task").model_prediction_prob_lowAcc; 
+  // const predictionProb = modelAccuracy == "high" ? round.get("task").model_prediction_prob_highAcc : round.get("task").model_prediction_prob_lowAcc; 
+  const predictionProb = round.get("task").model_prediction_prob;
 
   const effectiveIndex = round.get("effectiveIndex");
   const predictionPrefix = round.get("practice")
