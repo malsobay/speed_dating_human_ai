@@ -74,6 +74,9 @@ export default class Round extends React.Component {
     const previousPredictionSet = otherPlayer.get("predHistory").slice(-1)[0];
     const showScore = game.treatment.giveFeedback; 
     const playerIsSelf = player === otherPlayer; 
+    const playerWoA = player.get("woaHistory").slice(-1)[0];
+    const otherPlayerWoA = otherPlayer.get("woaHistory").slice(-1)[0];
+    const similarWoA = Math.abs(playerWoA - otherPlayerWoA) < 0.1;
     
     return (
       <div>
@@ -81,6 +84,7 @@ export default class Round extends React.Component {
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <span style={{color: otherPlayer.get("nameColor")}}><strong>{playerIsSelf ? "YOU" : otherPlayer.get("name")}</strong></span>
             <img src={otherPlayer.get("avatar")} height="50rem"/>
+            {showScore && <center><h3>Score: {previousPredictionSet.score.toFixed(2)}</h3></center>}
         </div>
 
         {socialInfoMode === "statusIndicators" && 
@@ -93,7 +97,9 @@ export default class Round extends React.Component {
             />
             <br/>
             <br/>
-            {showScore && <center><h3>Score: {previousPredictionSet.score.toFixed(2)}</h3></center>}
+            <br/>
+            {!playerIsSelf && <center><h3>{otherPlayer.get("name")} relied on the AI's predictions <u>{similarWoA ? "to a degree similar to yours" : playerWoA >= otherPlayerWoA ? "less than you did":"more than you did"}</u> on the previous task.</h3></center>}
+            {/* {<center><p>WoA: {otherPlayerWoA}</p></center>} */}
         </div>
         }
     </div>
