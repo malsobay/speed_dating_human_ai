@@ -166,7 +166,8 @@ export default class Round extends React.Component {
 
   renderIndicatorSocialInfo() {
     const { round, stage, player, game} = this.props;
-    const otherPlayers = _.reject(game.players, p => p._id === player._id);
+    let otherPlayers = _.reject(game.players, p => p._id === player._id);
+    otherPlayers = _.reject(otherPlayers, p => p.get("exited"));
     const socialInfoMode = game.treatment.socialInfoMode || "None";
     const submissionDelay = 5;
     const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
@@ -216,7 +217,8 @@ export default class Round extends React.Component {
 
   renderChatSocialInfo() {
     const { round, stage, player, game} = this.props;
-    const otherPlayers = _.reject(game.players, p => p._id === player._id);
+    let otherPlayers = _.reject(game.players, p => p._id === player._id);
+    otherPlayers = _.reject(otherPlayers, p => p.get("exited"));
     const socialInfoMode = game.treatment.socialInfoMode || "None";
     const submissionDelay = 20;
     const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
@@ -267,7 +269,6 @@ export default class Round extends React.Component {
 
   render() {
     const { round, stage, player, game} = this.props;
-    const otherPlayers = _.reject(game.players, p => p._id === player._id);
     const socialInfoMode = game.treatment.socialInfoMode || "None";
     console.log(stage.name, socialInfoMode)
 
