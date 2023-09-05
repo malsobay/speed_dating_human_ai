@@ -50,6 +50,7 @@ Empirica.onGameStart((game) => {
     player.set("lastInteraction", Date.now());
     player.set("woaHistory", []);
     player.set("predHistory", []);
+    player.set("reflectionHistory", []);
     player.stage.set("firstPrediction", player.round.get("firstPrediction"));
   });
 

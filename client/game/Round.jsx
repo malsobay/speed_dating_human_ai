@@ -11,6 +11,8 @@ import { StageTimeWrapper } from "meteor/empirica:core";
 import IdleToast from "./component/Idle.jsx";
 import Slider from "./component/SocialInfoSlider.jsx";
 
+import {TextArea} from "@blueprintjs/core";
+
 
 //timed button
 const TimedButton = StageTimeWrapper((props) => {
@@ -51,6 +53,23 @@ const TimedButton = StageTimeWrapper((props) => {
 });
 
 export default class Round extends React.Component {  
+  
+  state = {
+    reflection: ""
+  };
+
+  handleChange = (event) => {
+    const el = event.currentTarget;
+    this.setState({ [el.name]: el.value });
+  };
+
+  handleSocialControlSubmit(player, reflection) {
+    player.set(
+      "reflectionHistory",
+      [...player.get("reflectionHistory"), reflection]
+    );
+    player.stage.submit();
+  }
   
   renderSubmitted() {
     return (
@@ -286,6 +305,59 @@ export default class Round extends React.Component {
     )
   }
 
+  renderSoloSocialInfoControl() {
+    const { round, stage, player, game} = this.props;
+    const socialInfoMode = game.treatment.socialInfoMode || "None";
+    const submissionDelay = 20;
+    const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
+    const {reflection} = this.state;
+
+    return (
+      <main className={`main-container ${"single-column"}`}
+            onMouseDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 1000)}
+            onKeyDown={_.throttle(function(){
+              player.set("lastInteraction", new Date(Tracker.nonreactive(TimeSync.serverTime)).valueOf())
+            }, 5000)}
+      >
+      {<IdleToast {...this.props} />}
+
+      <header className="header-left">
+        <PlayerProfile
+          player={player}
+          stage={stage}
+          game={game}
+          round={round}
+        />
+      </header>
+
+
+      <section className="socialinfo-container">
+          <h2>Take a moment to reflect on how you made your prediction in the previous task:</h2>
+          <div style={{display: "flex", justifyContent: "center"}}>
+          <TextArea
+                id="reflection"
+                large={true}
+                // intent={Intent.PRIMARY}
+                onChange={this.handleChange}
+                value={reflection}
+                // fill={true}
+                name="reflection"
+                style={{height: "15rem", width: "100rem"}}
+              />
+          </div>
+          <br/>
+          <div style={{display: "flex", justifyContent: "center"}}>
+          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={socialInfoTrigger} onClick={() => this.handleSocialControlSubmit(player, reflection)} socialInfoMode={socialInfoMode}/>}
+          </div>
+          <br/>
+        </section>
+  
+    </main>
+    )
+  }
+
   render() {
     const { round, stage, player, game} = this.props;
     const socialInfoMode = game.treatment.socialInfoMode || "None";
@@ -297,6 +369,9 @@ export default class Round extends React.Component {
 
     if(stage.name == "socialInfo" & socialInfoMode == "chat"){
       return this.renderChatSocialInfo();};
+
+    if(stage.name == "socialInfo" & socialInfoMode == "control"){
+      return this.renderSoloSocialInfoControl();};
 
     return round.get("case") === "instruction"
       ? this.renderInstructions()

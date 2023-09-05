@@ -151,7 +151,7 @@ Empirica.gameInit((game) => {
       });
     }
 
-    if ((i+1) % discussionFrequency == 0 & playerCount > 1 & (i+1) < 10) {
+    if ((i+1) % discussionFrequency == 0 & (i+1) < 10) {
       var round = game.addRound({
         data: {
           practice: false,
