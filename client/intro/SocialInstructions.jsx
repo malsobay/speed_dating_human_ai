@@ -13,7 +13,7 @@ export default class SocialInstructions extends React.Component {
           <h1 className={"bp3-heading"}>Figuring out how to make the best use of the AI's predictions</h1>
           <p>
             You are simultaneously playing this game with {game.treatment.playerCount - 1} other participants. 
-            Occasionally, you may have the opportunity to <strong>discuss the game with the other participants via a chat window.</strong> 
+            After every round, you will have the opportunity to <strong>discuss the game with the other participants via a chat window.</strong> 
           </p>
 
           <p><strong>You should use the discussion stages to work with your teammates and find a strategy for using the AI's predictions to improve your own score.</strong></p>
@@ -48,7 +48,7 @@ export default class SocialInstructions extends React.Component {
           <h1 className={"bp3-heading"}>Figuring out how to make the best use of the AI's predictions</h1>
           <p>
             You are simultaneously playing this game with {game.treatment.playerCount - 1} other participants. 
-            Occasionally, you may have the opportunity to <strong>view a summary of how your group members are utilizing the AI's predictions.</strong> 
+            After every round, you will have the opportunity to <strong>view a summary of how your group members are utilizing the AI's predictions.</strong> 
           </p>
 
           <p>You will be shown your <strong>group members' average reliance on the AI's predictions</strong>, as well as <strong>their current cumulative score.</strong></p>
