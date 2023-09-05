@@ -48,14 +48,17 @@ export default class SocialInstructions extends React.Component {
           <h1 className={"bp3-heading"}>Figuring out how to make the best use of the AI's predictions</h1>
           <p>
             You are simultaneously playing this game with {game.treatment.playerCount - 1} other participants. 
-            After every round, you will have the opportunity to <strong>view a summary of how your group members are utilizing the AI's predictions.</strong> 
+            After every round, you will have the opportunity to <strong>view a summary of how your group members utilized the AI's predictions in the previous round.</strong> 
           </p>
 
-          <p>You will be shown your <strong>group members' average reliance on the AI's predictions</strong>, as well as <strong>their current cumulative score.</strong></p>
-          <p>Reliance on the AI is described as either "Contradicting", "Moderately reliant", or "Highly reliant", as detailed below:</p>
-          <img src="reliance_levels.png" style={{maxWidth: "100%"}}></img>
+          <p>You will be shown <strong>how your group members revised their predictions in response to the AI's predictions{game.treatment.giveFeedback ? ", and how accurate their final predictions were for the previous couple.":"."}</strong></p>
+          <p>The way people use the AI's predictions can range from "high reliance", where someone adjusts their initial prediction to strongly agree with the AI, to "contradiction", where the initial prediction is revised to disagree with the AI.</p>
+          
+          <div style={{display:"flex", justifyContent:"center"}}>
+            <img src="reliance_levels_cropped.png" style={{maxWidth: "150%"}}></img>
+          </div>
 
-          <p className="action-step">
+          <p className="action-step" style={{display:"flex", justifyContent:"center"}}>
             <button type="button" onClick={onPrev} disabled={!hasPrev}>
               Previous
             </button>

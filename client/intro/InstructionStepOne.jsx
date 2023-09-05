@@ -84,6 +84,7 @@ export default class InstructionStepOne extends React.Component {
             the same results you submitted in Step 1 (which will be shown to
             you). More details about Step 2 will be shown next.
           </p>
+          
 
           {/* {game.treatment.playerCount > 1 && 
           <div>
@@ -101,11 +102,12 @@ export default class InstructionStepOne extends React.Component {
           <h3>
             <u>Scoring:</u>
           </h3>
+          <p><strong>{game.treatment.giveFeedback ? "After you submit your final prediction in Step 2, you will be shown your score for that couple, and your cumulative score will always be shown in the top right corner of your screen.":""}</strong></p>
+          <p><strong>Accuracy is defined by how close your prediction is to the correct answer (the correct answer is 0 if the couple did not go on a second date, and 1 if they did).</strong></p>
           <p>
-            At the end of the experiment, you will get points based on the
-            accuracy of your Step 2 predictions (the predictions you made after
-            receiving the AI system’s predictions). <strong>Accuracy is defined by how close your prediction is to the correct answer (the correct answer is 0 if the couple did not go on a second date, 1 if they did).</strong>{" "}
-            Please note that the largest portion of your pay is dependent on the accuracy of your Step 2
+            At the end of the experiment, you will receive a bonus based on the
+            accuracy of all of your Step 2 predictions (the predictions you made after
+            receiving the AI system’s predictions). Please note that the largest portion of your pay is dependent on the accuracy of your Step 2
             predictions (more accurate predictions mean higher scores, and
             therefore greater payment for this game).
           </p>

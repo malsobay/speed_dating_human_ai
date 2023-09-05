@@ -25,7 +25,7 @@ export default class InstructionInteractiveRound extends React.Component {
                 The A.I. algorithm was trained based on data from 1,000 dates
                 and the actual outcomes (i.e. whether a match was successful or
                 not). The following chart explains which factors or attributes
-                the A.I. algorithm weighs more as it arrives at its predictions.
+                the A.I. algorithm weighs more as it arrives at its predictions. <strong>Importantly, this explanation is the same for all couples.</strong>
               </p>
               <img
                 className="interpretation-image"
@@ -63,7 +63,7 @@ export default class InstructionInteractiveRound extends React.Component {
                 and the actual outcomes (i.e. whether a match was successful or
                 not). For example, the algorithm shows that the matching
                 probability for the couple below is 76%, and the following chart
-                explains why the algorithm derived such a result.
+                explains why the algorithm derived such a result. <strong>Importantly, the AI's explanation of its prediction is unique for each couple.</strong>
               </p>
               <img className="interpretation-image" src="/task_sample.png" />
               <img
@@ -71,7 +71,7 @@ export default class InstructionInteractiveRound extends React.Component {
                 src="/task/tasks/1049.png"
               />
               <p>
-                According to the algorithm, <strong>Woman</strong> received a
+                According to the algorithm, the <strong>Woman</strong> received a
                 high score between 7 and 8 points from her partner in{" "}
                 <strong>Attractiveness</strong>, which raised the couple's
                 matching probability by more than <strong>15%</strong>. The
@@ -84,8 +84,8 @@ export default class InstructionInteractiveRound extends React.Component {
                 <strong> Man’s Attractiveness </strong> had{" "}
                 <strong>negative </strong> effects on the match probability by
                 more than <strong>20%</strong>. The relatively young{" "}
-                <strong>Age of Women</strong>
-                was also a factor that lowered the chances of matching.
+                <strong>Age of Woman</strong>{" "}
+                 was also a factor that lowered the chances of matching.
               </p>
             </div>
           ) : (
