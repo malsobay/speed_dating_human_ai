@@ -25,7 +25,7 @@ export default (props) => {
   const finalUserPercentage = userFinalPrediction * 100;
   const newPredictPercentage = value * 100;
 
-  console.log(focalPlayer.get("predHistory"), previousPredictionSet, predictionProb, userPrediction, userFinalPrediction, aiPrediction);
+  // console.log(focalPlayer.get("predHistory"), previousPredictionSet, predictionProb, userPrediction, userFinalPrediction, aiPrediction);
 
   // const effectiveIndex = round.get("effectiveIndex");
   // const predictionPrefix = round.get("practice")
