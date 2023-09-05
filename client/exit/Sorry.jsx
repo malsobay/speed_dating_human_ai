@@ -32,7 +32,7 @@ export default class Sorry extends Component {
       msg =
         "Unfortunately, you did not meet the conditions required to play the game.";
     }
-    if (player.exitReason === "idleTimedOut") {
+    if (player.exitReason === "idleTimedOut" || player.exitReason === "idleTimedOutNoWarning") {
       msg =
         `You were detected to be idle and have been removed from the game.`;
       code = "IX4MDNU2";

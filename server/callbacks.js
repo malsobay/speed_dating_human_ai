@@ -59,7 +59,7 @@ Empirica.onGameStart((game) => {
 // onRoundStart is triggered before each round starts, and before onStageStart.
 // It receives the same options as onGameStart, and the round that is starting.
 Empirica.onRoundStart((game, round) => {
-  console.log("onRoundStart start");
+  // console.log("onRoundStart start");
   if (round.get("case") === "initial") {
     game.players.forEach((player) => {
       player.round.set("score", 0);
@@ -88,10 +88,10 @@ Empirica.onRoundStart((game, round) => {
         // player.round.set("prediction", round.get("task").model_prediction_prob);
       } else {
         if (round.get("practice")) {
-          console.log(
-            "previous prediction",
-            player.get(`prediction-practice-${round.get("effectiveIndex")}`)
-          );
+          // console.log(
+          //   "previous prediction",
+          //   player.get(`prediction-practice-${round.get("effectiveIndex")}`)
+          // );
           player.round.set(
             "prediction",
             player.get(`prediction-practice-${round.get("effectiveIndex")}`)
@@ -101,10 +101,10 @@ Empirica.onRoundStart((game, round) => {
             player.get(`prediction-practice-${round.get("effectiveIndex")}`)
           );
         } else {
-          console.log(
-            "previous prediction",
-            player.get(`prediction-${round.get("effectiveIndex")}`)
-          );
+          // console.log(
+          //   "previous prediction",
+          //   player.get(`prediction-${round.get("effectiveIndex")}`)
+          // );
           player.round.set(
             "prediction",
             player.get(`prediction-${round.get("effectiveIndex")}`)
@@ -123,19 +123,19 @@ Empirica.onRoundStart((game, round) => {
 // It receives the same options as onRoundStart, and the stage that is starting.
 Empirica.onStageStart((game, round, stage) => {
 
-  // if (stage.index != 0){
-  //   _.reject(game.players, (p) => p.get("exited")).forEach(player => {
-  //     if (Date.now() - player.get("lastInteraction") > 60 * 1000){
-  //       player.log("playerRemoved", {
-  //         verb:"playerRemoved", 
-  //         playerId:player._id, 
-  //         timestamp:Date.now()});
-  //       player.set('exited', true);
-  //       player.exit("idleTimedOut");
-  //       console.log(`Player ${player._id} removed for being idle.`);
-  //     }
-  //   })
-  // }
+  if (stage.index != 0){
+    _.reject(game.players, (p) => p.get("exited")).forEach(player => {
+      if (Date.now() - player.get("lastInteraction") > 180 * 1000){
+        player.log("playerRemoved", {
+          verb:"playerRemoved", 
+          playerId:player._id, 
+          timestamp:Date.now()});
+        player.set('exited', true);
+        player.exit("idleTimedOutNoWarning");
+        console.log(`Player ${player._id} removed for being idle.`);
+      }
+    })
+  }
 
   // autosubmit for players who have been kicked
   game.players.forEach((player, i) => {
@@ -144,7 +144,7 @@ Empirica.onStageStart((game, round, stage) => {
     }
   });
 
-  console.log("onstage start now");
+  // console.log("onstage start now");
 
   if (round.get("case") === "revise" && game.treatment.giveFeedback) {
     if (stage.name === "outcome" || stage.name === "practice-outcome") {
@@ -154,14 +154,14 @@ Empirica.onStageStart((game, round, stage) => {
         const prediction = player.round.get("prediction");
         if (prediction !== null && prediction !== undefined) {
           const score = 1 - Math.pow(prediction - outcome, 2); //1 - brier score
-          console.log(
-            "outcome is ",
-            outcome,
-            "prediction",
-            prediction,
-            "score",
-            score
-          );
+          // console.log(
+          //   "outcome is ",
+          //   outcome,
+          //   "prediction",
+          //   prediction,
+          //   "score",
+          //   score
+          // );
           player.round.set("score", score);
         } else {
           player.round.set("score", 0);
@@ -222,14 +222,14 @@ Empirica.onRoundEnd((game, round) => {
       const prediction = player.round.get("prediction");
       if (prediction !== null && prediction !== undefined) {
         const score = 1 - Math.pow(prediction - outcome, 2); //1 - brier score
-        console.log(
-          "outcome is ",
-          outcome,
-          "prediction",
-          prediction,
-          "score",
-          score
-        );
+        // console.log(
+        //   "outcome is ",
+        //   outcome,
+        //   "prediction",
+        //   prediction,
+        //   "score",
+        //   score
+        // );
         player.round.set("score", score);
       } else {
         player.round.set("score", 0);
@@ -280,7 +280,7 @@ Empirica.onRoundEnd((game, round) => {
 // onGameEnd is triggered when the game ends.
 // It receives the same options as onGameStart.
 Empirica.onGameEnd((game) => {
-  console.log("The game", game._id, "has ended");
+  // console.log("The game", game._id, "has ended");
   const conversionRate = game.treatment.conversionRate;
 
   game.players.forEach((player) => {
