@@ -14,22 +14,40 @@ import Slider from "./component/SocialInfoSlider.jsx";
 
 //timed button
 const TimedButton = StageTimeWrapper((props) => {
-  const { onClick, activateAt, remainingSeconds, stage} = props;
+  const { onClick, activateAt, remainingSeconds, socialInfoMode} = props;
 
   const disabled = remainingSeconds > activateAt;
-  return (
-    <button
-      type="button"
-      className="btn-prediction-big"
-      onClick={onClick}
-      disabled={disabled}
-      style={{width:"400px"}}
-    >
-      {disabled
-        ? "I'm ready to end discussion and continue. (Enabled after " + Math.abs(remainingSeconds - activateAt) + "s)"
-        : "I'm ready to end discussion and continue."}
-    </button>
-  );
+  if (socialInfoMode == "chat"){
+    return (
+      <button
+        type="button"
+        className="btn-prediction-big"
+        onClick={onClick}
+        disabled={disabled}
+        style={{width:"400px", fontSize:"1.5rem"}}
+      >
+        {disabled
+          ? "I'm ready to end the discussion and continue. (Enabled after " + Math.abs(remainingSeconds - activateAt) + "s)"
+          : "I'm ready to end the discussion and continue."}
+      </button>
+    );
+  }
+  else {
+    return (
+      <button
+        type="button"
+        className="btn-prediction-big"
+        onClick={onClick}
+        disabled={disabled}
+        style={{width:"400px", fontSize:"1.5rem"}}
+      >
+        {disabled
+          ? "I'm ready to continue. (Enabled after " + Math.abs(remainingSeconds - activateAt) + "s)"
+          : "I'm ready to continue."}
+      </button>
+    );
+  }
+  
 });
 
 export default class Round extends React.Component {  
@@ -74,8 +92,10 @@ export default class Round extends React.Component {
     const previousPredictionSet = otherPlayer.get("predHistory").slice(-1)[0];
     const showScore = game.treatment.giveFeedback; 
     const playerIsSelf = player === otherPlayer; 
-    const playerWoA = player.get("woaHistory").slice(-1)[0];
-    const otherPlayerWoA = otherPlayer.get("woaHistory").slice(-1)[0];
+    // const playerWoA = player.get("woaHistory").slice(-1)[0];
+    const playerWoA = player.get("predHistory").slice(-1)[0].woa;
+    // const otherPlayerWoA = otherPlayer.get("woaHistory").slice(-1)[0];
+    const otherPlayerWoA = otherPlayer.get("predHistory").slice(-1)[0].woa;
     const similarWoA = Math.abs(playerWoA - otherPlayerWoA) < 0.1;
     
     return (
@@ -98,8 +118,8 @@ export default class Round extends React.Component {
             <br/>
             <br/>
             <br/>
-            {!playerIsSelf && <center><h3>{otherPlayer.get("name")} relied on the AI's predictions <u>{similarWoA ? "to a degree similar to yours" : playerWoA >= otherPlayerWoA ? "less than you did":"more than you did"}</u> on the previous task.</h3></center>}
-            {/* {<center><p>WoA: {otherPlayerWoA}</p></center>} */}
+            {(!playerIsSelf & previousPredictionSet.validWoa & player.get("predHistory").slice(-1)[0].validWoa) ? <center><h3>{otherPlayer.get("name")} relied on the AI's predictions <u>{similarWoA ? "to a degree similar to yours" : playerWoA >= otherPlayerWoA ? "less than you did":"more than you did"}</u> on the previous task.</h3></center> : null}
+            {/* {<center><p>WoA: {previousPredictionSet.validWoa}</p></center>} */}
         </div>
         }
     </div>
@@ -169,7 +189,7 @@ export default class Round extends React.Component {
     let otherPlayers = _.reject(game.players, p => p._id === player._id);
     otherPlayers = _.reject(otherPlayers, p => p.get("exited"));
     const socialInfoMode = game.treatment.socialInfoMode || "None";
-    const submissionDelay = 5;
+    const submissionDelay = 20;
     const socialInfoTrigger = game.treatment.socialInfoDuration - submissionDelay;
     const showScore = game.treatment.giveFeedback;
 
@@ -205,7 +225,7 @@ export default class Round extends React.Component {
           </div>
           <br/>
           <div style={{display: "flex", justifyContent: "center"}}>
-            {player.stage.submitted ? this.renderSubmitted() : <button type="button" className="btn-prediction-big" onClick={player.stage.submit}>Proceed</button>}
+          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={socialInfoTrigger} onClick={player.stage.submit} socialInfoMode={socialInfoMode}/>}
           </div>
           <br/>
         </section>
@@ -256,8 +276,7 @@ export default class Round extends React.Component {
           <p><strong>There are {otherPlayers.length} other players:</strong></p>
           {otherPlayers.map(p => this.renderSocialInteraction(p))}
           <br/>
-          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={socialInfoTrigger} onClick={player.stage.submit}
-      />}
+          {player.stage.submitted ? this.renderSubmitted() : <TimedButton stage={stage} player={player} activateAt={socialInfoTrigger} onClick={player.stage.submit} socialInfoMode={socialInfoMode}/>}
         </div>
        
       </section>
@@ -270,7 +289,7 @@ export default class Round extends React.Component {
   render() {
     const { round, stage, player, game} = this.props;
     const socialInfoMode = game.treatment.socialInfoMode || "None";
-    console.log(stage.name, socialInfoMode)
+    // console.log(stage.name, socialInfoMode)
 
     if(stage.name == "socialInfo" & socialInfoMode == "statusIndicators"){
       return this.renderIndicatorSocialInfo();
